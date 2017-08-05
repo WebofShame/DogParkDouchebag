@@ -70,7 +70,7 @@
 /* 0 */
 /***/ (function(module, exports) {
 
-throw new Error("Module parse failed: D:\\Users\\bobbyr\\Documents\\Projects\\DogParkDouchebag\\src\\materialize\\materialize.scss Unexpected character '@' (1:0)\nYou may need an appropriate loader to handle this file type.\n| @charset \"UTF-8\";\n| \n| // Mixins");
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 /* 1 */
