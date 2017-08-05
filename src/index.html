@@ -13,6 +13,7 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+	 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
 	<script type="text/javascript" src="./assets/js/index.js"></script>
           
@@ -24,9 +25,7 @@
 	    <div class="nav-wrapper">
 	      <a href="#" class="brand-logo"><span><i class="fa fa-paw" aria-hidden="true"></i></span> Dog Park Douchebags </a>
 	      <ul id="nav-mobile" class="right hide-on-med-and-down">
-	        <li><a href="#">Option1</a></li>
-	        <li><a href="#">Option2</a></li>
-	        <li><a href="#">Option3</a></li>
+	        <li><a href="#">Submit a Douchebag</a></li>
 	      </ul>
 	    </div>
   	</nav>
@@ -35,79 +34,36 @@
 	<div class="container">
   	<div class="row">
         <div class="col s6 m8">
-          <div class="card medium">
+          <div class="card large">
             <div class="card-image">
               <img src="assets/images/dogs1.jpg">
-              <span class="card-title">Douche1</span>
+              <span class="card-title" id="perpID">PerpID</span>
             </div>
             <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
+              <div>Location: <span id="location">Leawood</span></div>
+              <div>Breed: <span id="breed">Mongrel</span></div>
+              <div>Date: <span id="date">01/01/17</span></div>
             </div>
             <div class="card-action">
-              <a href="#">This is a link</a>
+              <a href="#">Rate this douche</a>
             </div>
           </div>
         </div>
         <div class="col s6 m4">
         <div class="card-panel teal">
-          <span class="white-text">I am a very simple card. I am good at containing small bits of information.
-          I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
+          <span class="white-text" id="submission-insult">this douche is such a douche
           </span>
         </div>
       </div>
       </div>
 
-      <div class="row">
-        <div class="col s6 m8">
-          <div class="card medium">
-            <div class="card-image">
-              <img src="assets/images/dogs1.jpg">
-              <span class="card-title">Douche1</span>
-            </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-            </div>
-          </div>
-        </div>
-        <div class="col s6 m4">
-        <div class="card-panel teal">
-          <span class="white-text">I am a very simple card. I am good at containing small bits of information.
-          I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
-          </span>
-        </div>
-      </div>
-      </div>
-
-     <div class="row">
-        <div class="col s6 m8">
-          <div class="card medium">
-            <div class="card-image">
-              <img src="assets/images/dogs1.jpg">
-              <span class="card-title">Douche1</span>
-            </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-            </div>
-          </div>
-        </div>
-        <div class="col s6 m4">
-        <div class="card-panel teal">
-          <span class="white-text">I am a very simple card. I am good at containing small bits of information.
-          I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
-          </span>
-        </div>
-      </div>
-      </div>
-      </div>
+	<ul class="pagination">
+	    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+	    <li class="active"><a href="#!">1</a></li>
+	    <li class="waves-effect"><a href="#!">2</a></li>
+	    <li class="waves-effect"><a href="#!">3</a></li>
+	    <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+	</ul>
 
  <footer class="page-footer">
           <div class="container">
