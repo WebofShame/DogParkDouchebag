@@ -22,63 +22,85 @@
 <body>
 	<!-- navbar -->
 	<div class="container"> <!-- thoughts on full width nav? I'm not a fan of it -->
-		<nav>
-			<div class="nav-wrapper blue darken-4">
-			<a href="#" class="brand-logo flow-text" id="brand-logo"><span><i class="fa fa-paw" aria-hidden="true"></i></span><span class="hide-on-med-and-down">Dog Park Douchebags<span></a>
+		<nav class="nav-wrapper brown darken-4">
+			<a href="#" class="brand-logo" id="brand-logo"><span><i class="fa fa-paw logo-icon" aria-hidden="true"></i></span><span class="hide-on-med-and-down">Dog Park Douchebags<span></a>
 			<ul id="nav-mobile" class="right">
 				<li>
-					<button data-target="modal1" class="waves-effect waves-light btn modal-trigger submit-button " id="button-open-submission-form">Shame <span class="hide-on-med-and-down">a Douchebag</span></button>
+					<button data-target="modal1" class="brown waves-effect waves-light btn modal-trigger submit-button " id="button-open-submission-form">Shame <span class="hide-on-med-and-down">a Douchebag</span></button>
 				</li>
 			</ul>
-			</div>
 		</nav>
 	</div>
 
 	<!-- sumbission form modal-->
-	<div id="modal1" class="modal bottom-sheet" id="submission-modal">
-		<div class="container">
-		<div class="modal-content" id="modal-content">
-			<h4>Shame a Douchebag</h4>
-			<div id="submission-form">
-				<p>
-				<form action="#">
-    				<div class="file-field input-field">
-      				<div class="btn">
-        			<span>File</span>
-        			<input type="file">
-      				</div>
-      				<div class="file-path-wrapper">
-        			<input class="file-path validate" type="text">
-      				</div>
-    				</div>
-  				</form>
-  				</p>
+	<div id="modal1" class="modal" id="submission-modal">
+			<div class="modal-content" id="modal-content">
+				<div id="submission-form">
+						<form action="#">
+							<div class="input-field" id="submission-title">
+								<span>Post Title</span>
+							</div>
+							<div class="input-field-wrapper">
+								<input class="input-field validate" type="text">
+							</div>
+
+							<div class="file-field input-field" id="image-file">
+								<div class="btn brown">
+									<span>File</span>
+									<input type="file">
+								</div>
+								<div class="file-path-wrapper">
+									<input class="file-path validate" type="text" placeholder="CaughtDouche.jpg">
+								</div>
+
+								<div class="input-field" id="perp-identifier-form">
+									<span>Douche Nickname</span>
+								</div>
+								<div class="input-field-wrapper">
+									<input class="input-field validate" type="text" placeholder="Guy Fieri">
+								</div>
+								<div class="input-field" id="submission-location">
+									<span>Location</span>
+								</div>
+								<div class="input-field-wrapper">
+									<input class="input-field validate" type="text" placeholder="12600 S Quivira Rd, Overland Park, KS 66213">
+								</div>
+
+								<div class="row">
+									<div class="input-field col s6" id="submission-date-time">
+										<span>Date</span>
+										<input id="submission-date" type="text" class="validate" placeholder="todays date script">
+									</div>
+									<div class="input-field col s6" id="submission-date-time">
+										<span>Time</span>
+										<input id="submission-time" type="text" class="validate timepicker">
+									</div>
+								</div>
+
+							</div>
+						</form>
+				</div>
 			</div>
-		</div>
-		</div>
 		<div class="modal-footer" id="modal-footer">
 			<button class="modal-action modal-close waves-effect waves-green btn-flat">Submit</button>
 		</div>
 	</div>
 
 	<!-- main card in a row with the insult card -->
-	<div class="container">
+	<div class="container" id="main-content">
+		
 		<div class="row">
-			<div class="card large col s6 m8 hoverable" id=>
+
+			<div class="card large col s6 m8 hoverable">
 				<div class="card-image">
 	  				<img id="image-file" src="assets/images/dogs1.jpg">
 	  				<span class="card-title" id="submission-title"><span class="z-depth-5">Post Title</span></span>
 				</div>
-				<div class="card-content flow-text" id="card-content">
-		  			<div class="row">
-		  				<div>
-			  				<div>Perp: <span id="perp-identifier">Smelly Kelly</span></div>
-			  				<div>Location: <span id="submission-location">Leawood</span></div>
-			  				<div>Breed: <span id="submission-breed">Mongrel</span></div>
-			  				<div>Date: <span id="submission-date-time">01/01/17</span></div>
-		  				</div>
-		  				<div>Submitted by: <span id="submitted-by">Bob R.</span></div>
-		  			</div>
+				<div class="card-content flow-text" id="card-content">	
+	  				<div>Perp: <span id="perp-identifier">Smelly Kelly</span></div>
+	  				<div>Location: <span id="submission-location">Leawood</span></div>
+	  				<div>Breed: <span id="submission-breed">Mongrel</span></div>
+	  				<div>Submitted by: <span id="submitted-by">Bob R.</span></div>
 				</div>
 				<!-- future addition -->
 				<!-- <div class="card-action rating">
@@ -86,11 +108,12 @@
 				</div> -->
 			</div>
 			<div class="container col s6 m4">
-				<div class="card-panel grey hoverable" id="insult-card">
+				<div class="card-panel brown hoverable" id="insult-card">
 					<span class="white-text flow-text" id="submission-insult">this douche is such a douche</span>
 				</div>
 			</div>
 		</div>
+	
 	</div>
 
 	
@@ -106,7 +129,7 @@
 	</div> -->
 
 	<div class="container" id="footer">
-	<footer class="page-footer blue darken-4">
+	<footer class="page-footer brown darken-4">
 		<div class="container">
 			<div class="row">
 				<div class="col l6 s12" id="footer-brand">
@@ -135,6 +158,6 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
 <script type="text/javascript" src="./assets/js/index.js"></script>
-</body>
 
+</body>
 </html>
