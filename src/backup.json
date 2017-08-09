@@ -1,15 +1,13 @@
 {
-  "name": "dogparkdouchebags",
-  "version": "1.2.5",
+  "name": "hangman-game",
+  "version": "1.2.4",
   "description": "Javascript hangman game for class",
   "scripts": {
     "start": "babel-node buildScripts/build.js"
   },
-  "author": "Bobby Ross, Dan Seiser, David Waterman, Brien Hall",
+  "author": "Bobby Ross",
   "license": "ISC",
-  "dependencies": {
-    "insultgenerator": "0.0.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
