@@ -7,7 +7,9 @@
   },
   "author": "Bobby Ross",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "insultgenerator": "0.0.2"
+  },
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
