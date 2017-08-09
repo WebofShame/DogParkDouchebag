@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+	//the modal itself, fired by the button in the right end of navbar
 	$('.modal').modal();
 
 
@@ -16,6 +17,8 @@ $(document).ready(function(){
 	});
 
 	//adds already randomized Elizibethan insult to small card on right side
+	//**DOESNT NOT WORK IN LOCAL DEV ENVIRONMENT on Chrome, b/c of chrome settings
+	//works in Safari, should work when server-to-server.
 	function insultor() {
 		var queryURL = 'http://quandyfactory.com/insult/json';
 
@@ -31,17 +34,7 @@ $(document).ready(function(){
 		})
 	}
 
-	// bind rover to 5
-     $('#rover').poopRating(5, 5);
-     // here we are listening for when rover takes a dump because we are responsible owners
-     $('#rover').on('pooped', function (event, value) {
-        console.log(value);
-         alert('Your dog pooped ' + value + ' times....');
-     });
-
-     //  Made the comonent so that you can initialize using either direct id selector or by css class
-     $('.scruffy-and-family').poopRating(5, 3);
-
+////Dave's auto date/time picker 
      $(function(){
 		$('input[type="time"][value="now"]').each(function(){
 			var d = new Date();
@@ -66,5 +59,7 @@ $(document).ready(function(){
 			});
 		});
 	});
+
+
 
 });
