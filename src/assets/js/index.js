@@ -77,36 +77,100 @@ $(document).ready(function () {
 
 	var database = firebase.database();
 
-
-	database.ref().limitToFirst(10).orderByChild('submission-sortstamp').on("value", function (snapshot) {
+	database.ref().orderByKey().limitToLast(4).on('value', function (snapshot, prevChildKey) {
 		console.log('running...');
 		console.log(snapshot.val());
 		snapVal = snapshot.val()
+		var arrayKeys = [];
 		for (var property in snapVal) {
 			if (snapVal.hasOwnProperty(property)) {
-				thisKey = property;
-				thisObject = snapVal[property];
-				var newRow = $('<div class="row">');
-				var newCard = $('<div class="card large col s6 m8 hoverable">');
-				var newImgDiv = $('<div class="card-image"><img class="image-file" src="' + thisObject['submission-img'] + '"><span class="card-title" id="submission-title"><span class="z-depth-5">' + thisObject['submission-title'] + '</span></span></div>')
-				var newAttrDiv = $('<div>Perp: <span id="submission-identifier">' + thisObject['submission-identifier'] + '</span></div><div>Location: <span id="submission-location">' + thisObject['submission-location'] + '</span></div><div>Breed: <span id="submission-breed">' + thisObject['submission-breed'] + '</span></div>')
-				newCard.append(newImgDiv);
-				newCard.append(newAttrDiv);
-				newRow.append(newCard);
-				newRow = '<div class="row"><div class="card large col s6 m8 hoverable"><div class="card-image"><img id="image-file" src="' + thisObject['submission-img'] + '"><span class="card-title"><span class="z-depth-5">' + thisObject['submission-title'] + '</span></span></div><div class="card-content flow-text" id="card-content"><div>Perp: <span id="perp-identifier">' + thisObject['submission-identifier'] + '</span></div><div>Location: <span>' + thisObject['submission-location'] + '</span></div><div>Breed: <span>' + thisObject['submission-breed'] + '</span></div></div></div><div class="container col s6 m4"><div class="card-panel brown hoverable" id="insult-card"><span class="white-text flow-text" id="submission-insult">this douche is such a douche</span></div></div></div>'
-				$('#main-content').append(newRow);
-
-
-				/*
-
-				<div class="row"><div class="card large col s6 m8 hoverable"><div class="card-image"><img id="image-file" src="assets/images/dogs1.jpg"><span class="card-title" id="submission-title"><span class="z-depth-5">Post Title</span></span></div><div class="card-content flow-text" id="card-content"><div>Perp: <span id="perp-identifier">Smelly Kelly</span></div><div>Location: <span id="submission-location">Leawood</span></div><div>Breed: <span id="submission-breed">Mongrel</span></div><div>Submitted by: <span id="submitted-by">Bob R.</span></div></div></div><div class="container col s6 m4"><div class="card-panel brown hoverable" id="insult-card"><span class="white-text flow-text" id="submission-insult">this douche is such a douche</span></div></div></div>
-
-				*/
-
-
+				arrayKeys.push(property);
 			}
 		}
-	})
+		arrayKeys = _.reverse(arrayKeys);
+		for (var i = 0; i < arrayKeys.length; i++) {
+			thisKey = arrayKeys[i];
+
+			thisObject = snapVal[thisKey];
+
+			var newRow = $('<div class="row poop-card" />');
+			newRow.data('key', thisKey);
+			newRow.prepend('<div class="card large col s6 m8 hoverable"><div class="card-image"><img id="image-file" src="' + thisObject['submission-img'] + '"><span class="card-title"><span class="z-depth-5">' + thisObject['submission-title'] + '</span></span></div><div class="card-content flow-text" id="card-content"><div>Perp: <span id="perp-identifier">' + thisObject['submission-identifier'] + '</span></div><div>Location: <span>' + thisObject['submission-location'] + '</span></div><div>Breed: <span>' + thisObject['submission-breed'] + '</span></div></div></div><div class="container col s6 m4"><div class="card-panel brown hoverable" id="insult-card"><span class="white-text flow-text" id="submission-insult">this douche is such a douche</span></div></div>');
+			$('#main-content').append(newRow);
+
+		}
+
+	});
+
+	var win = $(window);
+
+	win.scroll(function () {
+		//console.log("scrolling", $(document).height() - win.height(), win.scrollTop() + 200);
+		// End of the document reached?
+		if ($(document).height() - win.height() <= win.scrollTop() + 5) {
+			$('#loading').show();
+			var lastKnownKey = $('#main-content .poop-card').last().data('key');
+			console.log("finding by", lastKnownKey);
+			database.ref().orderByKey().endAt(lastKnownKey).limitToLast(6).once('value', function (snapshot, prevChildKey) {
+				console.log('running...');
+				console.log(snapshot.val());
+				snapVal = snapshot.val();
+
+				var arrayKeys = [];
+				for (var property in snapVal) {
+					if (snapVal.hasOwnProperty(property)) {
+						arrayKeys.push(property);
+					}
+				}
+				arrayKeys = _.reverse(arrayKeys);
+				for (var i = 0; i < arrayKeys.length; i++) {
+					thisKey = arrayKeys[i];
+
+					if (thisKey == lastKnownKey)
+						continue;
+
+					thisObject = snapVal[thisKey];
+					var newRow = $('<div class="row poop-card" />');
+					newRow.data('key', thisKey);
+					newRow.append('<div class="card large col s6 m8 hoverable"><div class="card-image"><img id="image-file" src="' + thisObject['submission-img'] + '"><span class="card-title"><span class="z-depth-5">' + thisObject['submission-title'] + '</span></span></div><div class="card-content flow-text" id="card-content"><div>Perp: <span id="perp-identifier">' + thisObject['submission-identifier'] + '</span></div><div>Location: <span>' + thisObject['submission-location'] + '</span></div><div>Breed: <span>' + thisObject['submission-breed'] + '</span></div></div></div><div class="container col s6 m4"><div class="card-panel brown hoverable" id="insult-card"><span class="white-text flow-text" id="submission-insult">this douche is such a douche</span></div></div>');
+					$('#main-content').append(newRow);
+				}
+
+			});
+
+			$('#loading').hide();
+		}
+	});
+
+	// database.ref().limitToFirst(10).orderByChild('submission-sortstamp').on("value", function (snapshot) {
+	// 	console.log('running...');
+	// 	console.log(snapshot.val());
+	// 	snapVal = snapshot.val()
+	// 	for (var property in snapVal) {
+	// 		if (snapVal.hasOwnProperty(property)) {
+	// 			thisKey = property;
+	// 			thisObject = snapVal[property];
+	// 			var newRow = $('<div class="row poop-card">');
+	// 			var newCard = $('<div class="card large col s6 m8 hoverable">');
+	// 			var newImgDiv = $('<div class="card-image"><img class="image-file" src="' + thisObject['submission-img'] + '"><span class="card-title" id="submission-title"><span class="z-depth-5">' + thisObject['submission-title'] + '</span></span></div>')
+	// 			var newAttrDiv = $('<div>Perp: <span id="submission-identifier">' + thisObject['submission-identifier'] + '</span></div><div>Location: <span id="submission-location">' + thisObject['submission-location'] + '</span></div><div>Breed: <span id="submission-breed">' + thisObject['submission-breed'] + '</span></div>')
+	// 			newCard.append(newImgDiv);
+	// 			newCard.append(newAttrDiv);
+	// 			newRow.append(newCard);
+	// 			newRow = '<div class="row"><div class="card large col s6 m8 hoverable"><div class="card-image"><img id="image-file" src="' + thisObject['submission-img'] + '"><span class="card-title"><span class="z-depth-5">' + thisObject['submission-title'] + '</span></span></div><div class="card-content flow-text" id="card-content"><div>Perp: <span id="perp-identifier">' + thisObject['submission-identifier'] + '</span></div><div>Location: <span>' + thisObject['submission-location'] + '</span></div><div>Breed: <span>' + thisObject['submission-breed'] + '</span></div></div></div><div class="container col s6 m4"><div class="card-panel brown hoverable" id="insult-card"><span class="white-text flow-text" id="submission-insult">this douche is such a douche</span></div></div></div>'
+	// 			$('#main-content').append(newRow);
+
+
+	// 			/*
+
+	// 			<div class="row"><div class="card large col s6 m8 hoverable"><div class="card-image"><img id="image-file" src="assets/images/dogs1.jpg"><span class="card-title" id="submission-title"><span class="z-depth-5">Post Title</span></span></div><div class="card-content flow-text" id="card-content"><div>Perp: <span id="perp-identifier">Smelly Kelly</span></div><div>Location: <span id="submission-location">Leawood</span></div><div>Breed: <span id="submission-breed">Mongrel</span></div><div>Submitted by: <span id="submitted-by">Bob R.</span></div></div></div><div class="container col s6 m4"><div class="card-panel brown hoverable" id="insult-card"><span class="white-text flow-text" id="submission-insult">this douche is such a douche</span></div></div></div>
+
+	// 			*/
+
+
+	// 		}
+	// 	}
+	// })
 
 
 	function formSubmission() {
