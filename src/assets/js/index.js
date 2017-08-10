@@ -62,7 +62,7 @@ $(document).ready(function(){
 
 /*DAN'S STUFF*/
 
-var urlString;
+	var urlString;
 
   // Initialize Firebase
   var config = {
@@ -83,33 +83,29 @@ var urlString;
     console.log(snapshot.val());
     snapVal = snapshot.val()
     for (var property in snapVal) {
-    if (snapVal.hasOwnProperty(property)) {
-        thisKey = property;
-		thisObject = snapVal[property];        
-        var newRow = $('<div class="row">');
-        var newCard = $('<div class="card large col s6 m8 hoverable">');
-        var newImageHolder = $('<div class="card-image">');
-        var newImg = $('<img class="image-file" src="'+thisObject['submission-img']+'">');
-        var newTitleHolder = $('<span class="card-title" class="submission-title">');
-        var newtitleSpan = $('<span class="z-depth-5">'+thisObject['submission-title']+'</span>');
-        
-        newTitleHolder.append(newtitleSpan);
-        newImageHolder.append(newImg);
-        newImageHolder.append(newTitleHolder);
-        newCard.append(newImageHolder);
-      
-        var newContent = $('<div class="card-content flow-text" id="card-content">')
-        newAttrDiv = $('<div>Perp: <span id="submission-identifier">'+thisObject['submission-identifier']+'</span></div><div>Location: <span id="submission-location">'+thisObject['submission-location']+'</span></div><div>Breed: <span id="submission-breed">'+thisObject['submission-breed']+'</span></div><div>Submitted by: <span id="submitted-by">'+thisObject['submission-by']+'</span></div>')
-        newContent.append(newAttrDiv)
-
-        newCard.append(newContent)
-        newRow.append(newCard);
-
-        $('#main-content').append(newRow);
+	    if (snapVal.hasOwnProperty(property)) {
+	        thisKey = property;
+			thisObject = snapVal[property];        
+	        var newRow = $('<div class="row">');
+	        var newCard = $('<div class="card large col s6 m8 hoverable">');
+			var	newImgDiv = $('<div class="card-image"><img class="image-file" src="'+thisObject['submission-img']+'"><span class="card-title" id="submission-title"><span class="z-depth-5">'+thisObject['submission-title']+'</span></span></div>')
+			var newAttrDiv = $('<div>Perp: <span id="submission-identifier">'+thisObject['submission-identifier']+'</span></div><div>Location: <span id="submission-location">'+thisObject['submission-location']+'</span></div><div>Breed: <span id="submission-breed">'+thisObject['submission-breed']+'</span></div>')
+	        newCard.append(newImgDiv);
+	        newCard.append(newAttrDiv);
+	        newRow.append(newCard);
+	        newRow = '<div class="row"><div class="card large col s6 m8 hoverable"><div class="card-image"><img id="image-file" src="'+thisObject['submission-img']+'"><span class="card-title"><span class="z-depth-5">'+thisObject['submission-title']+'</span></span></div><div class="card-content flow-text" id="card-content"><div>Perp: <span id="perp-identifier">'+thisObject['submission-identifier']+'</span></div><div>Location: <span>'+thisObject['submission-location']+'</span></div><div>Breed: <span>'+thisObject['submission-breed']+'</span></div></div></div><div class="container col s6 m4"><div class="card-panel brown hoverable" id="insult-card"><span class="white-text flow-text" id="submission-insult">this douche is such a douche</span></div></div></div>'
+	        $('#main-content').append(newRow);
 
 
-    }
-}
+/*
+
+<div class="row"><div class="card large col s6 m8 hoverable"><div class="card-image"><img id="image-file" src="assets/images/dogs1.jpg"><span class="card-title" id="submission-title"><span class="z-depth-5">Post Title</span></span></div><div class="card-content flow-text" id="card-content"><div>Perp: <span id="perp-identifier">Smelly Kelly</span></div><div>Location: <span id="submission-location">Leawood</span></div><div>Breed: <span id="submission-breed">Mongrel</span></div><div>Submitted by: <span id="submitted-by">Bob R.</span></div></div></div><div class="container col s6 m4"><div class="card-panel brown hoverable" id="insult-card"><span class="white-text flow-text" id="submission-insult">this douche is such a douche</span></div></div></div>
+
+*/
+
+
+	    }
+	}
   })
 
 
@@ -120,7 +116,7 @@ var urlString;
       return;
     }   
 
-    input = document.getElementById('testFile');
+    input = document.getElementById('submission-file');
     if (!input) {
       alert("Um, couldn't find the fileinput element.");
     }
@@ -140,6 +136,7 @@ var urlString;
   
 
   function receivedText() {
+
     //**************************STORE THE IMAGE IN FIREBASE***************************************
   	// Create a root reference
   	var storageRef = firebase.storage().ref();
@@ -173,8 +170,8 @@ var urlString;
         'submission-location' : $('#submission-location').val(),
         'submission-identifier' : $('#submission-identifier').val(),
         'submission-title' : $('#submission-title').val(),
-        'submission-by' : $('#submission-by').val(),
-        'submission-date-time' : $('#submission-date-time').val(),
+        //'submission-by' : $('#submission-by').val(),
+        //'submission-date-time' : $('#submission-date-time').val(),
         'submission-img' :  imgSrc,
         'submission-sortstamp' : 0 - Date.now()
       })
