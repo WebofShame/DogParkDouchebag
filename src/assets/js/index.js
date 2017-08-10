@@ -95,7 +95,7 @@ $(document).ready(function () {
 
 			var newRow = $('<div class="row poop-card" />');
 			newRow.data('key', thisKey);
-			newRow.prepend('<div class="card large col s6 m8 hoverable"><div class="card-image"><img id="image-file" src="' + thisObject['submission-img'] + '"><span class="card-title"><span class="z-depth-5">' + thisObject['submission-title'] + '</span></span></div><div class="card-content flow-text" id="card-content"><div>Perp: <span id="perp-identifier">' + thisObject['submission-identifier'] + '</span></div><div>Location: <span>' + thisObject['submission-location'] + '</span></div><div>Breed: <span>' + thisObject['submission-breed'] + '</span></div></div></div><div class="container col s6 m4"><div class="card-panel brown hoverable" id="insult-card"><span class="white-text flow-text" id="submission-insult">this douche is such a douche</span></div></div>');
+			newRow.prepend('<div class="card large col s6 m8 hoverable orange lighten-5"><div class="card-image"><img id="image-file" src="' + thisObject['submission-img'] + '"><span class="card-title"><span class="z-depth-5">' + thisObject['submission-title'] + '</span></span></div><div class="card-content flow-text" id="card-content"><div>Perp: <span id="perp-identifier">' + thisObject['submission-identifier'] + '</span></div><div>Location: <span>' + thisObject['submission-location'] + '</span></div><div>Breed: <span>' + thisObject['submission-breed'] + '</span></div></div></div><div class="container col s6 m4"><div class="card-panel grey lighten-1 hoverable" id="insult-card"><span class="blue-grey-text text-darken-4 flow-text" id="submission-insult">this douche is such a douche</span></div></div>');
 			$('#main-content').append(newRow);
 
 		}
