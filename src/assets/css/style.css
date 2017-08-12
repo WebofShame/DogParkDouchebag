@@ -587,3 +587,14 @@ span:nth-last-child(3) {
 		-moz-transform: rotateY(45deg);
 	}
 }
+
+
+
+  .card.small .card-image, .card.medium .card-image, .card.large .card-image {
+    max-height: 95%;
+    overflow: hidden;
+  }
+
+  .subButt {
+    float: right;
+  }

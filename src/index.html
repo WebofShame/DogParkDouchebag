@@ -17,6 +17,7 @@
 	<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.js"></script> -->
 	<script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+	<link rel="stylesheet" href="./assets/css/style.css" />
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 </head>
@@ -25,17 +26,17 @@
 
 	<!-- thoughts on full width nav? I'm not a fan of it -->
 	<div class="navbar-fixed">
-		<nav class="nav-wrapper brown darken-4">
+		<nav class="nav-wrapper blue-grey darken-4">
 			<a href="#" class="brand-logo" id="brand-logo" style="margin-left: 10px;"><span><i class="fa fa-paw logo-icon" aria-hidden="true"></i></span><span class="hide-on-med-and-down">Dog Park Douchebags<span></a>
 			<ul id="nav-mobile" class="right">
 				<li>
-					<button data-target="modal1" class="brown waves-effect waves-light btn modal-trigger submit-button " id="button-open-submission-form">Shame <span class="hide-on-med-and-down">a Douchebag</span></button>
+					<button data-target="modal1" class="orange accent-4 grey-text text-lighten-3 waves-effect waves-light btn modal-trigger submit-button " id="button-open-submission-form">Shame <span class="hide-on-med-and-down">a Douchebag</span></button>
 				</li>
 			</ul>
 		</nav>
 	</div>
 	<!-- navbar -->
-	<div id="douche-banner" class="parallax-container">
+<!-- 	<div id="douche-banner" class="parallax-container">
 		<div class="section no-pad-bot">
 			<div class="container">
 				<br><br>
@@ -51,7 +52,7 @@
 			</div>
 		</div>
 		<div class="parallax"><img src="./assets/images/dogdump.jpg" alt="Unsplashed background img 1" style="display: block; transform: translate3d(-50%, 348px, 0px);"></div>
-	</div>
+	</div> -->
 	<div class="container">
 		<!-- main card in a row with the insult card -->
 		<div id="main-content" style="display: none;">
@@ -79,10 +80,10 @@
 			</div>
 		</div>
 	</div>
-	<footer class="page-footer brown darken-4">
+	<footer class="page-footer blue-grey darken-4">
 		<div class="row">
 			<div class="col l6 s12" id="footer-brand">
-				<h5 class="white-text" id="footer-brand-text-title"><span><i class="fa fa-paw logo-icon" aria-hidden="true"></i></span> Dog Park Douchebags</h5>
+				<h5 class="orange-text text-darken-4" id="footer-brand-text-title"><span><i class="fa fa-paw logo-icon grey-text text-lighten-1" aria-hidden="true"></i></span> Dog Park Douchebags</h5>
 			</div>
 			<div class="col l4 offset-l2 s12" id="footer-links">
 				<h5 class="white-text">Links</h5>
@@ -91,7 +92,7 @@
 				</ul>
 			</div>
 		</div>
-		<div class="footer-copyright" id="footer-copyright">
+		<div class="footer-copyright orange darken-4" id="footer-copyright">
 			<div class="container">
 				© 2017 Web of Shame Productions
 			</div>
@@ -100,16 +101,17 @@
 	<!-- sumbission form modal-->
 	<div id="modal1" class="modal">
 		<div class="modal-content" id="modal-content">
+			<button class="orange accent-4 grey-text text-lighten-3 modal-action modal-close waves-effect waves-green btn-flat" id="subButt">Submit</button>
 			<div id="submission-form">
 				<form action="#">
-					<div class="input-field">
+					<div class="input-field blue-grey-text text-darken-4">
 						<span>Post Title</span>
 					</div>
 					<div class="input-field-wrapper">
 						<input class="input-field validate" type="text" id="submission-title">
 					</div>
 					<div class="file-field input-field">
-						<div class="btn brown">
+						<div class="btn orange accent-4 grey-text text-lighten-3">
 							<span>File</span>
 							<input type="file" id="submission-file">
 						</div>
@@ -156,7 +158,7 @@
 		</div>
 
 		<div class="modal-footer" id="modal-footer">
-			<button class="brown white-text modal-action modal-close waves-effect waves-green btn-flat" id="subButt">Submit</button>
+			
 		</div>
 	</div>
 	<script id="douchebag-detail-template" type="text/x-handlebars-template">
@@ -174,10 +176,10 @@
 					</div>
 					<div class="card-content flow-text">
 
-						<!-- <span>Perp: {{submission-identifier}}</span> <br />
-						<span>Location: {{submission-location}}</span> <br />
-						<span>Breed: {{submission-breed}}</span> <br /> -->
-						<dl class="left">
+						<span style="font-weight: bold;">Perp: </span><span>{{submission-identifier}}</span> <br />
+						<span style="font-weight: bold;">Location: </span><span>{{submission-location}}</span> <br />
+						<span style="font-weight: bold;">Breed: </span><span>{{submission-breed}}</span> <br />
+						<!-- <dl class="left">
 							<dt>
 								Perp:
 							</dt>
@@ -196,14 +198,14 @@
 							<dd>
 								<span>{{submission-breed}}</span>
 							</dd>
-						</dl>
+						</dl> -->
 						<ul class="poop-rater right"></ul>
 					</div>
 
 				</div>
 			</div>
 			<div class="col s6 m4">
-				<div class="card-panel brown hoverable"><span class="white-text flow-text">this douche is such a douche</span></div>
+				<div class="card-panel grey lighten-1 hoverable"><span class="white-text flow-text">this douche is such a douche</span></div>
 			</div>
 		</div>
 	</script>
