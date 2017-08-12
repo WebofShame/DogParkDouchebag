@@ -122,9 +122,26 @@ var app = function () {
 		var renderedDoucheBag = $(self.doucheBagTemplate(item));
 		// attach our key to the rendered jQuery card object
 		renderedDoucheBag.data('key', key);
-
+		console.log(item)
 		// initialize the poop rating
-		renderedDoucheBag.find('.poop-rater').poopRating(5, self.getRandomInt(1, 5));
+		var rating = item['submission-rating'];
+		var ratingArray = rating;
+		
+		ratingSum = 0;
+		$(ratingArray).each(function(){
+			ratingSum+= this;
+		})
+		ratingAvg = ratingSum/ratingArray.length;
+		ratingAvg = Math.round(ratingAvg);
+		
+		var poopRater = renderedDoucheBag.find('.poop-rater').poopRating(5, ratingAvg);
+		
+		poopRater.on('pooped',function(event,thisValue){
+			var thisKey = $(this).closest('.poop-card').data('key');
+			ratingArray.push(thisValue);
+			self.updatePoop(thisKey,ratingArray);
+			
+		})
 
 		// handle prepend/append and render to main content
 		if (prepend) {
@@ -133,6 +150,19 @@ var app = function () {
 			self.mainContent.append(renderedDoucheBag);
 		}
 	};
+
+	this.updatePoop = function(key,array){
+		this.fireDb.ref(key).update({'submission-rating' : array});
+		var ratedKeys = localStorage.getItem("rated-keys");
+		if(!ratedKeys){
+			var ratedKeys = [key];
+		}else{
+			var ratedKeys = JSON.parse(ratedKeys);
+			ratedKeys.push(key);
+		}
+		localStorage.setItem('rated-keys',JSON.stringify(ratedKeys));
+
+	}
 
 	this.initFireBase = function () {
 		firebase.initializeApp(this.fireBaseConfig);
@@ -309,7 +339,7 @@ var app = function () {
 
 		// display image
 		var message = fr.result;
-
+		/*
 		$.when(
 			// push our image to firebase storage
 			imgPathRef.putString(message, 'data_url'),
@@ -326,18 +356,19 @@ var app = function () {
 			// newImg.attr('src', newImgSrc);
 			// $('#imageHolder').append(newImg);
 		});
-		// imgPathRef.putString(message, 'data_url').then(function (snapshot) {
-		// 	console.log(snapshot);
-		// 	// // this is our url reference?
-		// 	newImgSrc = snapshot.metadata.downloadURLs[0];
-		// 	// // submit to firebase with
-		// 	doSubmission(newImgSrc);
-		// 	// newImg = $('<img>');
-		// 	// newImg.attr('src', newImgSrc);
-		// 	// $('#imageHolder').append(newImg);
-		// });
+		*/
+		 imgPathRef.putString(message, 'data_url').then(function (snapshot) {
+		 	console.log(snapshot);
+		 	// // this is our url reference?
+		 	newImgSrc = snapshot.metadata.downloadURLs[0];
+		 	// // submit to firebase with
+		 	doSubmission(newImgSrc);
+		 	// newImg = $('<img>');
+		 	// newImg.attr('src', newImgSrc);
+		 	// $('#imageHolder').append(newImg);
+		 });
 
-		function doSubmission(imgSrc, insult) {
+		function doSubmission(imgSrc) {
 			//store submission
 			self.fireDb.ref().push({
 				'submission-breed': $('#submission-breed').val(),
@@ -346,9 +377,10 @@ var app = function () {
 				'submission-title': $('#submission-title').val(),
 				//'submission-by' : $('#submission-by').val(),
 				//'submission-date-time' : $('#submission-date-time').val(),
-				'submission-insult': insult,
+				//'submission-insult': insult,
 				'submission-img': imgSrc,
-				'submission-sortstamp': 0 - Date.now()
+				'submission-sortstamp': 0 - Date.now(),
+				'submission-rating' : ['3'] //default rating to 3
 			})
 		}
 	};

@@ -68,11 +68,16 @@ $.fn.poopRating = function (totalPoops, poopVal, clickCallback) {
 
     // good ol' click event for each poop-item
     self.poopContainer.children('.poop-item').on('click', function (event) {
-        // assign our selectedPoopValue to the poopval on selected
-        self.selectedPoopValue = $(this).data('poopval');
-        // trigger a pooped event since we have a selection and pass the poop value selected.
-        // you can grab this by subscribing with on such as $('#bla').on('pooped', function(event, value){ do something });
-        self.trigger('pooped', self.selectedPoopValue);
+        var thisKey = $(self).closest('.poop-card').data('key');
+        var localKeys = localStorage.getItem('rated-keys');
+
+        if(!localKeys || (localKeys &&  $.inArray(thisKey,JSON.parse(localKeys))) < 0){
+            // assign our selectedPoopValue to the poopval on selected
+            self.selectedPoopValue = $(this).data('poopval');
+            // trigger a pooped event since we have a selection and pass the poop value selected.
+            // you can grab this by subscribing with on such as $('#bla').on('pooped', function(event, value){ do something });
+            self.trigger('pooped', self.selectedPoopValue);
+        }
     });
 
     // on mouseout we want to reset to what the currently selected poop value is.
