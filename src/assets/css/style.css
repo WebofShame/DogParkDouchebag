@@ -595,6 +595,10 @@ span:nth-last-child(3) {
     overflow: hidden;
   }
 
-  .subButt {
-    float: right;
+  #toast-container {
+  text-align: center;
+  top: 200px !important;
+  right: 200px !important;
+  bottom: 10%;
+  left:7%;  
   }
