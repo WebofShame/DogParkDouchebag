@@ -77,6 +77,8 @@ $.fn.poopRating = function (totalPoops, poopVal, clickCallback) {
             // trigger a pooped event since we have a selection and pass the poop value selected.
             // you can grab this by subscribing with on such as $('#bla').on('pooped', function(event, value){ do something });
             self.trigger('pooped', self.selectedPoopValue);
+        }else{
+            //Message advising that rating has already been completed, fool!
         }
     });
 
