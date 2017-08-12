@@ -595,12 +595,18 @@ span:nth-last-child(3) {
     overflow: hidden;
   }
 
+  .toast {
+  	color: #e0e0e0;
+  	background-color: #b71c1c ;
+  }
+
   #toast-container {
 
-  top: 200px !important;
-  right: 200px !important;
-  bottom: 10%;
-  left:7%;  
+  top: auto !important;
+  right: auto !important;
+  bottom: 40%;
+  left:30%; 
+  color: #ff6d00;
   }
 
   #rating-display {

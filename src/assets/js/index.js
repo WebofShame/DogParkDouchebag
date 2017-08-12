@@ -296,7 +296,7 @@ var app = function () {
 		} else if (!input.files) {
 			Materialize.toast("This browser doesn't seem to support the `files` property of file inputs.", 3000);
 		} else if (!input.files[0]) {
-			Materialize.toast("Please select a file before clicking 'Load'", 3000);
+			Materialize.toast("Please select a file before clicking 'Submit'", 3000);
 		} else {
 			// get the first input file in the selection array
 			file = input.files[0];
@@ -397,23 +397,23 @@ var app = function () {
 			};
 
 			if(post['submission-title'] === '') {
-				Materialize.toast('Please enter a title!', 3000);
+				Materialize.toast('Please enter a title!', 2000);
 				return false;
 			}
 			if(post['submission-identifier'] === '') {
-				Materialize.toast('Please enter a Douche Nickname!', 3000);
+				Materialize.toast('Please enter a Douche Nickname!', 2000);
 				return false;
 			}
 			if(post['submission-breed'] === '') {
-				Materialize.toast('Please enter a breed!', 3000);
+				Materialize.toast('Please enter a breed!', 2000);
 				return false;
 			}
 			if(post['submission-location'] === '') {
-				Materialize.toast('Please enter a location!', 3000);
+				Materialize.toast('Please enter a location!', 2000);
 				return false;
 			}
 			if(post['submission-img'] === '') {
-				Materialize.toast('Please upload an image!', 3000);
+				Materialize.toast('Please upload an image!', 2000);
 				return false;
 			}
 		
