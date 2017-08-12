@@ -22,32 +22,94 @@
 </head>
 
 <body>
-	<!-- navbar -->
-	<div class="container">
-		<!-- thoughts on full width nav? I'm not a fan of it -->
-		<nav class="nav-wrapper blue-grey darken-4">
-			<a href="#" class="brand-logo" id="brand-logo"><span><i class="fa fa-paw logo-icon grey-text text-lighten-1" aria-hidden="true"></i></span><span class="hide-on-med-and-down orange-text text-darken-4">Dog Park Douchebags<span></a>
+
+	<!-- thoughts on full width nav? I'm not a fan of it -->
+	<div class="navbar-fixed">
+		<nav class="nav-wrapper brown darken-4">
+			<a href="#" class="brand-logo" id="brand-logo" style="margin-left: 10px;"><span><i class="fa fa-paw logo-icon" aria-hidden="true"></i></span><span class="hide-on-med-and-down">Dog Park Douchebags<span></a>
 			<ul id="nav-mobile" class="right">
 				<li>
-					<button data-target="modal1" class="orange accent-4 grey-text text-lighten-3 waves-effect waves-light btn modal-trigger submit-button " id="button-open-submission-form">Shame <span class="hide-on-med-and-down">a Douchebag</span></button>
+					<button data-target="modal1" class="brown waves-effect waves-light btn modal-trigger submit-button " id="button-open-submission-form">Shame <span class="hide-on-med-and-down">a Douchebag</span></button>
 				</li>
 			</ul>
 		</nav>
 	</div>
+	<!-- navbar -->
+	<div id="douche-banner" class="parallax-container">
+		<div class="section no-pad-bot">
+			<div class="container">
+				<br><br>
+				<h1 class="header center brown-text text-darken-2">Take a dump on someone else for once!!</h1>
+				<div class="row center">
+					<h5 class="header col s12">Take back your neighborhood now</h5>
+				</div>
+				<div class="row center">
+					<button data-target="modal1" class="btn-large waves-effect btn modal-trigger waves-light brown lighten-1">Get Started</button>
+				</div>
+				<br><br>
 
+			</div>
+		</div>
+		<div class="parallax"><img src="./assets/images/dogdump.jpg" alt="Unsplashed background img 1" style="display: block; transform: translate3d(-50%, 348px, 0px);"></div>
+	</div>
+	<div class="container">
+		<!-- main card in a row with the insult card -->
+		<div id="main-content" style="display: none;">
+			<div class="row">
+				<div class="col s12" id="card-space">
+
+				</div>
+			</div>
+		</div>
+		<div id="detail-content">
+
+		</div>
+
+		<div id="loading" class="loading-container full">
+			<div class="spin-container">
+				<div class="cssload-preloader">
+					<span>L</span>
+					<span>o</span>
+					<span>a</span>
+					<span>d</span>
+					<span>i</span>
+					<span>n</span>
+					<span>g</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class="page-footer brown darken-4">
+		<div class="row">
+			<div class="col l6 s12" id="footer-brand">
+				<h5 class="white-text" id="footer-brand-text-title"><span><i class="fa fa-paw logo-icon" aria-hidden="true"></i></span> Dog Park Douchebags</h5>
+			</div>
+			<div class="col l4 offset-l2 s12" id="footer-links">
+				<h5 class="white-text">Links</h5>
+				<ul>
+					<li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="footer-copyright" id="footer-copyright">
+			<div class="container">
+				© 2017 Web of Shame Productions
+			</div>
+		</div>
+	</footer>
 	<!-- sumbission form modal-->
-	<div id="modal1" class="modal orange lighten-5" id="submission-modal">  <!--add modal-fixed-footer to class for a scroll -->
+	<div id="modal1" class="modal">
 		<div class="modal-content" id="modal-content">
 			<div id="submission-form">
 				<form action="#">
-					<div class="input-field blue-grey-text text-darken-4">
+					<div class="input-field">
 						<span>Post Title</span>
 					</div>
 					<div class="input-field-wrapper">
 						<input class="input-field validate" type="text" id="submission-title">
 					</div>
 					<div class="file-field input-field">
-						<div class="btn orange accent-4">
+						<div class="btn brown">
 							<span>File</span>
 							<input type="file" id="submission-file">
 						</div>
@@ -55,32 +117,32 @@
 							<input class="file-path validate" type="text" placeholder="CaughtDouche.jpg">
 						</div>
 					</div>
-					<div class="input-field blue-grey-text text-darken-4" id="perp-identifier-form">
+					<div class="input-field" id="perp-identifier-form">
 						<span>Douche Nickname</span>
 					</div>
 					<div class="input-field-wrapper">
 						<input class="input-field validate" type="text" placeholder="Guy Fieri" id="submission-identifier">
 					</div>
-					<div class="input-field blue-grey-text text-darken-4 ">
+					<div class="input-field">
 						<span>Breed</span>
 					</div>
 					<div class="input-field-wrapper">
 						<input class="input-field validate" type="text" placeholder="Mongrel" id="submission-breed">
 					</div>
-					<div class="input-field blue-grey-text text-darken-4">
+					<div class="input-field">
 						<span>Location</span>
 					</div>
 					<div class="input-field-wrapper">
 						<input class="input-field validate" type="text" placeholder="12600 S Quivira Rd, Overland Park, KS 66213" id="submission-location">
 					</div>
 					<div class="row">
-						<div class="input-field col s6 blue-grey-text text-darken-4" id="submission-date-time">
+						<div class="input-field col s6">
 							<span>Date</span>
-							<input id="submission-date" type="text" value="day" class="validate" id="submission-date">
+							<input id="submission-date" type="text" value="day" class="validate">
 						</div>
-						<div class="input-field col s6 blue-grey-text text-darken-4" id="submission-date-time">
+						<div class="input-field col s6">
 							<span>Time</span>
-							<input id="submission-time" type="time" value="now" class="validate" id="submission-time">
+							<input id="submission-time" type="time" value="now" class="validate">
 						</div>
 					</div>
 					<div class="row">
@@ -89,76 +151,64 @@
 						</div>
 						<input type="hidden" id="submission-douchebaggery" value="3">
 					</div>
+				</form>
 			</div>
 		</div>
-		</form>
-		<div class="modal-footer orange lighten-5" id="modal-footer">
-			<button class="blue-grey darken-4 grey-text text-lighten-3  modal-action modal-close waves-effect waves-green btn-flat" id="subButt">Submit</button>
+
+		<div class="modal-footer" id="modal-footer">
+			<button class="brown white-text modal-action modal-close waves-effect waves-green btn-flat" id="subButt">Submit</button>
 		</div>
 	</div>
-	</div>
-
-	</div>
-	<!-- main card in a row with the insult card -->
-	<div class="container" id="main-content">
-		<!--
-        <div class="row">
-            <div class="card large col s6 m8 hoverable">
-                <div class="card-image">
-                    <img id="image-file" src="assets/images/dogs1.jpg">
-                    <span class="card-title" id="submission-title"><span class="z-depth-5">Post Title</span></span>
-                </div>
-                <div class="card-content flow-text" id="card-content">
-                    <div>Perp: <span id="perp-identifier">Smelly Kelly</span></div>
-                    <div>Location: <span id="submission-location">Leawood</span></div>
-                    <div>Breed: <span id="submission-breed">Mongrel</span></div>
-                    <div>Submitted by: <span id="submitted-by">Bob R.</span></div>
-                </div>
-
-
-            </div>
-            <div class="container col s6 m4">
-                <div class="card-panel brown hoverable" id="insult-card">
-                    <span class="white-text flow-text" id="submission-insult">this douche is such a douche</span>
-                </div>
-            </div>
-        </div>
-        -->
-	</div>
-
-	<!-- putting pagination on hold -->
-	<!-- <div id="paginator">
-        <ul class="pagination" id="pagination">
-            <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-            <li class="active blue darken-4"><a href="#!">1</a></li>
-            <li class="waves-effect"><a href="#!">2</a></li>
-            <li class="waves-effect"><a href="#!">3</a></li>
-            <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-        </ul>
-    </div> -->
-	<div class="container">
-		<footer class="page-footer blue-grey darken-4">
-			<div class="container">
-				<div class="row">
-					<div class="col l6 s12" id="footer-brand">
-						<h5 class="white-text" id="footer-brand-text-title"><span><i class="fa fa-paw logo-icon" aria-hidden="true"></i></span> Dog Park Douchebags</h5>
+	<script id="douchebag-detail-template" type="text/x-handlebars-template">
+		<img id="image-file" src="{{submission-img}}" />
+	</script>
+	<script id="douchebag-card-template" type="text/x-handlebars-template">
+		<div class="row poop-card">
+			<div class="col s6 m8">
+				<div class="card large hoverable">
+					<div class="card-image">
+						<img id="image-file" src="{{submission-img}}" />
+						<span class="card-title">
+						<span class="z-depth-5">{{submission-title}}</span>
+						</span>
 					</div>
-					<div class="col l4 offset-l2 s12" id="footer-links">
-						<h5 class="grey-text text-lighten-2">Links</h5>
-						<ul>
-							<li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-						</ul>
+					<div class="card-content flow-text">
+
+						<!-- <span>Perp: {{submission-identifier}}</span> <br />
+						<span>Location: {{submission-location}}</span> <br />
+						<span>Breed: {{submission-breed}}</span> <br /> -->
+						<dl class="left">
+							<dt>
+								Perp:
+							</dt>
+							<dd>
+								<span>{{submission-identifier}}test</span>
+							</dd>
+							<dt>
+								Location:
+							</dt>
+							<dd>
+								<span>{{submission-location}}</span>
+							</dd>
+							<dt>
+								Breed:
+							</dt>
+							<dd>
+								<span>{{submission-breed}}</span>
+							</dd>
+						</dl>
+						<ul class="poop-rater right"></ul>
 					</div>
+
 				</div>
 			</div>
-			<div class="footer-copyright orange darken-4" id="footer-copyright">
-				<div class="container">
-					© 2017 Web of Shame Productions
-				</div>
+			<div class="col s6 m4">
+				<div class="card-panel brown hoverable"><span class="white-text flow-text">this douche is such a douche</span></div>
 			</div>
-		</footer>
-	</div>
+		</div>
+	</script>
 	<!--scripts-->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>

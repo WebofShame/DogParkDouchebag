@@ -1,41 +1,67 @@
-$(document).ready(function () {
+var app = function () {
+	// local for self/this scoping
+	var self = this,
+		// html from our handbars template which is passed to create the template function
+		doucheBagHtml = $('#douchebag-card-template').html();
 
-	//the modal itself, fired by the button in the right end of navbar
-	$('.modal').modal();
+	// will hold a reference to our initialized firebase database instsance
+	this.fireDb = undefined;
+	// good ol' window reference for internal ease
+	this.window = $(window);
+	// Just a reference to main content div
+	this.mainContent = $('#card-space');
+	// holds our Handlebars function returned by comiling our card template.  This function can be called over and over passing an object which will be filled in using the compiled template.
+	this.doucheBagTemplate = Handlebars.compile(doucheBagHtml);
 
+	// indicator whether our initial firebase call has completed or not
+	this.initialLoadComplete = false;
+	// holds whether we are buffering on scroll to prevent duplicate calls
+	this.isCallBuffered = false;
 
-	$('.timepicker').pickatime({
-		default: 'now', // Set default time: 'now', '1:30AM', '16:30'
-		fromnow: 0, // set default time to * milliseconds from now (using with default = 'now')
-		twelvehour: false, // Use AM/PM or 24-hour format
-		donetext: 'OK', // text for done-button
-		cleartext: 'Clear', // text for clear-button
-		canceltext: 'Cancel', // Text for cancel-button
-		autoclose: false, // automatic close timepicker
-		ampmclickable: true, // make AM PM clickable
-		aftershow: function () {} //Function for after opening timepicker
-	});
+	// Initialize Firebase
+	this.fireBaseConfig = {
+		apiKey: "AIzaSyDeSO3Sqx-F-m3a7bvoVBYW39UL6th9eDU",
+		authDomain: "dogpark-douchebags.firebaseapp.com",
+		databaseURL: "https://dogpark-douchebags.firebaseio.com",
+		projectId: "dogpark-douchebags",
+		storageBucket: "dogpark-douchebags.appspot.com",
+		messagingSenderId: "392493477164"
+	};
 
-	//adds already randomized Elizibethan insult to small card on right side
-	//**DOESNT NOT WORK IN LOCAL DEV ENVIRONMENT on Chrome, b/c of chrome settings
-	//works in Safari, should work when server-to-server.
-	function insultor() {
-		var queryURL = 'http://quandyfactory.com/insult/json';
+	// utility function to get a guid
+	this.getGuid = function () {
+		var s4 = function () {
+			return Math.floor((1 + Math.random()) * 0x10000)
+				.toString(16)
+				.substring(1);
+		};
 
-		$.ajax({
-				url: queryURL,
-				method: "GET",
-
-
-			})
-			.done(function (response) {
-				var randomInsult = response.insult;
-				$("#submission-insult").html(randomInsult);
-			})
+		// returns random s4 results as Guid ex. 00000000-0000-0000-0000-000000000000
+		return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+			s4() + '-' + s4() + s4() + s4();
 	}
 
-	////Dave's auto date/time picker
-	$(function () {
+	this.initControls = function () {
+		// initialize modal dialog
+		$('.modal').modal();
+
+		// Add our parallax header
+		$('.parallax').parallax();
+
+		// initialize pickatime instances
+		$('.timepicker').pickatime({
+			default: 'now', // Set default time: 'now', '1:30AM', '16:30'
+			fromnow: 0, // set default time to * milliseconds from now (using with default = 'now')
+			twelvehour: false, // Use AM/PM or 24-hour format
+			donetext: 'OK', // text for done-button
+			cleartext: 'Clear', // text for clear-button
+			canceltext: 'Cancel', // Text for cancel-button
+			autoclose: false, // automatic close timepicker
+			ampmclickable: true, // make AM PM clickable
+			aftershow: function () {} //Function for after opening timepicker
+		});
+
+		////Dave's auto date/time picker
 		$('input[type="time"][value="now"]').each(function () {
 			var d = new Date();
 			h = d.getHours();
@@ -46,9 +72,7 @@ $(document).ready(function () {
 				'value': h + ':' + m
 			});
 		});
-	});
 
-	$(function () {
 		$('input[type="text"][value="day"]').each(function () {
 			var today = new Date();
 			var month = today.getMonth();
@@ -58,128 +82,181 @@ $(document).ready(function () {
 				"value": month + "/" + date + "/" + year
 			});
 		});
-	});
+	}
 
-	/*DAN'S STUFF*/
-
-	var urlString;
-
-	// Initialize Firebase
-	var config = {
-		apiKey: "AIzaSyDeSO3Sqx-F-m3a7bvoVBYW39UL6th9eDU",
-		authDomain: "dogpark-douchebags.firebaseapp.com",
-		databaseURL: "https://dogpark-douchebags.firebaseio.com",
-		projectId: "dogpark-douchebags",
-		storageBucket: "dogpark-douchebags.appspot.com",
-		messagingSenderId: "392493477164"
+	// reverses our snapshots and then calls on each iteration passing this as object, our key, and the current item
+	this.reverseSnapshotEntries = function (snap, callback) {
+		var keys = [];
+		// loop our keys and push to array
+		for (var val in snap) {
+			keys.push(val);
+		}
+		// now we have our keys lets loop and call passing our this context, firebase key and firebase item
+		for (var i = keys.length - 1; i >= 0; i--) {
+			// use call
+			callback.call(snap, keys[i], snap[keys[i]]);
+		}
 	};
-	firebase.initializeApp(config);
 
-	var database = firebase.database();
-
-	database.ref().orderByKey().limitToLast(4).on('value', function (snapshot, prevChildKey) {
-		console.log('running...');
-		console.log(snapshot.val());
-		snapVal = snapshot.val()
-		var arrayKeys = [];
-		for (var property in snapVal) {
-			if (snapVal.hasOwnProperty(property)) {
-				arrayKeys.push(property);
-			}
+	// utility function to get the count of unique keys
+	this.keyCount = function (snap) {
+		var keys = [];
+		// loop our keys and push to array
+		for (var val in snap) {
+			keys.push(val);
 		}
-		arrayKeys = _.reverse(arrayKeys);
-		for (var i = 0; i < arrayKeys.length; i++) {
-			thisKey = arrayKeys[i];
+		// return the length of keys found
+		return keys.length;
+	};
 
-			thisObject = snapVal[thisKey];
+	// random number generator..  dont't leave home without it..
+	this.getRandomInt = function (min, max) {
+		min = Math.ceil(min);
+		max = Math.floor(max);
+		return Math.floor(Math.random() * (max - min)) + min;
+	};
 
-			var newRow = $('<div class="row poop-card" />');
-			newRow.data('key', thisKey);
-			newRow.prepend('<div class="card large col s6 m8 hoverable orange lighten-5"><div class="card-image"><img id="image-file" src="' + thisObject['submission-img'] + '"><span class="card-title"><span class="z-depth-5">' + thisObject['submission-title'] + '</span></span></div><div class="card-content flow-text" id="card-content"><div>Perp: <span id="perp-identifier">' + thisObject['submission-identifier'] + '</span></div><div>Location: <span>' + thisObject['submission-location'] + '</span></div><div>Breed: <span>' + thisObject['submission-breed'] + '</span></div></div></div><div class="container col s6 m4"><div class="card-panel grey lighten-1 hoverable" id="insult-card"><span class="blue-grey-text text-darken-4 flow-text" id="submission-insult">this douche is such a douche</span></div></div>');
-			$('#main-content').append(newRow);
+	// adds a card to the container
+	this.addPoopCard = function (key, item, prepend) {
+		// feed the curent item into our Handlebars doucheBagTemplate which will render the row data against our item and template. Wrapped in jquery selector in order to get a jquery object.
+		var renderedDoucheBag = $(self.doucheBagTemplate(item));
+		// attach our key to the rendered jQuery card object
+		renderedDoucheBag.data('key', key);
 
+		// initialize the poop rating
+		renderedDoucheBag.find('.poop-rater').poopRating(5, self.getRandomInt(1, 5));
+
+		// handle prepend/append and render to main content
+		if (prepend) {
+			self.mainContent.prepend(renderedDoucheBag);
+		} else {
+			self.mainContent.append(renderedDoucheBag);
 		}
+	};
 
-	});
+	this.initFireBase = function () {
+		firebase.initializeApp(this.fireBaseConfig);
 
-	var win = $(window);
+		// var provider = new firebase.auth.GithubAuthProvider();
 
-	win.scroll(function () {
-		//console.log("scrolling", $(document).height() - win.height(), win.scrollTop() + 200);
-		// End of the document reached?
-		if ($(document).height() - win.height() <= win.scrollTop() + 5) {
-			$('#loading').show();
-			var lastKnownKey = $('#main-content .poop-card').last().data('key');
-			console.log("finding by", lastKnownKey);
-			database.ref().orderByKey().endAt(lastKnownKey).limitToLast(6).once('value', function (snapshot, prevChildKey) {
-				console.log('running...');
-				console.log(snapshot.val());
-				snapVal = snapshot.val();
+		// firebase.auth().signInWithPopup(provider).then(function (result) {
+		// 	// This gives you a GitHub Access Token. You can use it to access the GitHub API.
+		// 	var token = result.credential.accessToken;
+		// 	// The signed-in user info.
+		// 	var user = result.user;
 
-				var arrayKeys = [];
-				for (var property in snapVal) {
-					if (snapVal.hasOwnProperty(property)) {
-						arrayKeys.push(property);
-					}
-				}
-				arrayKeys = _.reverse(arrayKeys);
-				for (var i = 0; i < arrayKeys.length; i++) {
-					thisKey = arrayKeys[i];
+		// 	console.log(user);
+		// 	// ...
+		// }).catch(function (error) {
+		// 	console.log(error);
+		// 	// Handle Errors here.
+		// 	var errorCode = error.code;
+		// 	var errorMessage = error.message;
+		// 	// The email of the user's account used.
+		// 	var email = error.email;
+		// 	// The firebase.auth.AuthCredential type that was used.
+		// 	var credential = error.credential;
+		// 	// ...
+		// });
 
-					if (thisKey == lastKnownKey)
-						continue;
+		// get instance of firebase and assign
+		this.fireDb = firebase.database();
 
-					thisObject = snapVal[thisKey];
-					var newRow = $('<div class="row poop-card" />');
-					newRow.data('key', thisKey);
-					newRow.append('<div class="card large col s6 m8 hoverable orange lighten-5"><div class="card-image"><img id="image-file" src="' + thisObject['submission-img'] + '"><span class="card-title"><span class="z-depth-5">' + thisObject['submission-title'] + '</span></span></div><div class="card-content flow-text" id="card-content"><div>Perp: <span id="perp-identifier">' + thisObject['submission-identifier'] + '</span></div><div>Location: <span>' + thisObject['submission-location'] + '</span></div><div>Breed: <span>' + thisObject['submission-breed'] + '</span></div></div></div><div class="container col s6 m4"><div class="card-panel grey lighten-1 hoverable" id="insult-card"><span class="blue-grey-text text-darken-4 flow-text" id="submission-insult">this douche is such a douche</span></div></div>');
-					$('#main-content').append(newRow);
-				}
+		// show our loading indicator
+		$('#loading').show();
 
+		// call once on the last 5 entries to initially load the 5 most recent entries
+		this.fireDb.ref().orderByKey().limitToLast(5).once('value', function (snapshot) {
+
+			// call our reverseSnapshotEntries function in order to iterate in reverse through the returned entries
+			self.reverseSnapshotEntries(snapshot.val(), function (key, item) {
+				// add the card
+				self.addPoopCard(key, item);
 			});
 
+			// flag that we are initialized
+			self.initialLoadComplete = true;
+
+			// hide our loading indicator
 			$('#loading').hide();
-		}
-	});
 
-	// database.ref().limitToFirst(10).orderByChild('submission-sortstamp').on("value", function (snapshot) {
-	// 	console.log('running...');
-	// 	console.log(snapshot.val());
-	// 	snapVal = snapshot.val()
-	// 	for (var property in snapVal) {
-	// 		if (snapVal.hasOwnProperty(property)) {
-	// 			thisKey = property;
-	// 			thisObject = snapVal[property];
-	// 			var newRow = $('<div class="row poop-card">');
-	// 			var newCard = $('<div class="card large col s6 m8 hoverable">');
-	// 			var newImgDiv = $('<div class="card-image"><img class="image-file" src="' + thisObject['submission-img'] + '"><span class="card-title" id="submission-title"><span class="z-depth-5">' + thisObject['submission-title'] + '</span></span></div>')
-	// 			var newAttrDiv = $('<div>Perp: <span id="submission-identifier">' + thisObject['submission-identifier'] + '</span></div><div>Location: <span id="submission-location">' + thisObject['submission-location'] + '</span></div><div>Breed: <span id="submission-breed">' + thisObject['submission-breed'] + '</span></div>')
-	// 			newCard.append(newImgDiv);
-	// 			newCard.append(newAttrDiv);
-	// 			newRow.append(newCard);
-	// 			newRow = '<div class="row"><div class="card large col s6 m8 hoverable"><div class="card-image"><img id="image-file" src="' + thisObject['submission-img'] + '"><span class="card-title"><span class="z-depth-5">' + thisObject['submission-title'] + '</span></span></div><div class="card-content flow-text" id="card-content"><div>Perp: <span id="perp-identifier">' + thisObject['submission-identifier'] + '</span></div><div>Location: <span>' + thisObject['submission-location'] + '</span></div><div>Breed: <span>' + thisObject['submission-breed'] + '</span></div></div></div><div class="container col s6 m4"><div class="card-panel brown hoverable" id="insult-card"><span class="white-text flow-text" id="submission-insult">this douche is such a douche</span></div></div></div>'
-	// 			$('#main-content').append(newRow);
+			// the page starts with class full on loading to make it initially larger.  Since the initial load is complete we do not need it this big hence remove the full class to unapply
+			$('#loading').removeClass('full');
 
+			// go ahead and show our main content since we have our initial data set
+			$('#main-content').show();
+		});
 
-	// 			/*
+		self.fireDb.ref().on('child_added', function (item) {
+			// check to see if initial load is complete as we do not want to add anything until after we have done our initial load.
+			if (self.initialLoadComplete) {
+				//console.log('adding', item.key, item.val());
+				// add the card
+				self.addPoopCard(item.key, item.val(), true);
+			}
+		});
+	};
 
-	// 			<div class="row"><div class="card large col s6 m8 hoverable"><div class="card-image"><img id="image-file" src="assets/images/dogs1.jpg"><span class="card-title" id="submission-title"><span class="z-depth-5">Post Title</span></span></div><div class="card-content flow-text" id="card-content"><div>Perp: <span id="perp-identifier">Smelly Kelly</span></div><div>Location: <span id="submission-location">Leawood</span></div><div>Breed: <span id="submission-breed">Mongrel</span></div><div>Submitted by: <span id="submitted-by">Bob R.</span></div></div></div><div class="container col s6 m4"><div class="card-panel brown hoverable" id="insult-card"><span class="white-text flow-text" id="submission-insult">this douche is such a douche</span></div></div></div>
+	this.initEvents = function () {
 
-	// 			*/
+		// attach our submit form
+		$('#subButt').on('click', function () {
+			event.preventDefault();
+			self.submitForm()
+		});
 
+		// window.scroll is called every time scrolling takes place on the page
+		this.window.scroll(function () {
+			// Get the dif against the window adding 5 for good measure
+			if ($(document).height() - self.window.height() <= self.window.scrollTop() + 5) {
+				// check to see if we are currently buffering data and waiting for a response to prevent unnecessary calls to firebase if we are within the scroll bottom margin
+				if (!self.isCallBuffered) {
+					// since this is a new call set our buffer variable to prevent additional calls while we are still waiting for a response
+					self.isCallBuffered = true;
 
-	// 		}
-	// 	}
-	// })
+					// show our loading content indicator
+					$('#loading').show();
 
+					// snag the last poop-card key from the data element so we know where we left off
+					var lastKnownKey = $('#main-content .poop-card').last().data('key');
 
-	function formSubmission() {
+					// make a single once call to firebase asking for the last 6 from our key.  Our page size is 5 so it will be a dupe of our last card + 5 new cards
+					self.fireDb.ref().orderByKey().endAt(lastKnownKey).limitToLast(6).once('value', function (snapshot) {
+						var records = snapshot.val();
+						console.log(self.keyCount(records));
+						if (self.keyCount(records) > 1) {
+							// call our reverseSnapshotEntries function in order to iterate in reverse through the returned entries
+							self.reverseSnapshotEntries(snapshot.val(), function (key, item) {
+								// check to see whether the current key is equal to our last key and ignore if so
+								if (lastKnownKey !== key) {
+									// add the card
+									self.addPoopCard(key, item);
+								}
+							});
+						} else {
+							$('#loading').hide();
+						}
+
+						// Set our buffer to false so we can load more if still scrolling
+						self.isCallBuffered = false;
+
+					});
+				}
+			}
+		});
+	};
+
+	this.submitForm = function () {
+		// check browser support for required functionality
 		if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
 			alert('The File APIs are not fully supported in this browser.');
 			return;
 		}
 
+		// get our file input element instance
 		input = document.getElementById('submission-file');
+
+		// do checks
 		if (!input) {
 			alert("Um, couldn't find the fileinput element.");
 		} else if (!input.files) {
@@ -187,77 +264,102 @@ $(document).ready(function () {
 		} else if (!input.files[0]) {
 			alert("Please select a file before clicking 'Load'");
 		} else {
+			// get the first input file in the selection array
 			file = input.files[0];
+			// initialize file reader API
 			fr = new FileReader();
-			fr.onload = receivedText;
+			// onload fire receivedText function to store image in firebase
+			fr.onload = self.receivedText;
+			// readDataAsURL reads the local file into a Base64 string
 			fr.readAsDataURL(file);
 		}
-	}
+	};
 
+	// return a promise from random insult api call
+	this.getRandomInsult = function (categoryId, numQuestions) {
+		var queryURL = 'http://quandyfactory.com/insult/json';
 
-	function receivedText() {
+		return $.ajax({
+			url: queryURL,
+			headers: [
+				{ 'Origin': 'https://www.eiko.com' }
+			],
+			method: "GET"
+		});
+	};
 
+	this.receivedText = function () {
 		//**************************STORE THE IMAGE IN FIREBASE***************************************
 		// Create a root reference
 		var storageRef = firebase.storage().ref();
-		var imgGuid = getGuid();
+
+		// call getGuid to get a unique Guid for storage
+		var imgGuid = self.getGuid();
+
 		// Create a reference to 'image'
 		var imgRef = storageRef.child(imgGuid);
 
 		// Create a reference to 'images/mountains.jpg'
 		var imgPathRef = storageRef.child('images/' + imgGuid);
 
+		// not sure what is going on here?
 		// While the file names are the same, the references point to different files
 		imgRef.name === imgPathRef.name // true
 		imgRef.fullPath === imgPathRef.fullPath // false
 
-		//display image
+		// display image
 		var message = fr.result;
-		imgPathRef.putString(message, 'data_url').then(function (snapshot) {
+
+		$.when(
+			// push our image to firebase storage
+			imgPathRef.putString(message, 'data_url'),
+			// call to get a random insult api
+			self.getRandomInsult()
+		).then(function (firebaseResult, randomInsultResult) {
+			console.log(randomInsultResult);
+			var snapshot = firebaseResult;
+			//this is our url reference ?
 			newImgSrc = snapshot.metadata.downloadURLs[0];
+			// submit to firebase with
 			doSubmission(newImgSrc);
-			newImg = $('<img>');
-			newImg.attr('src', newImgSrc);
-			$('#imageHolder').append(newImg);
+			// newImg = $('<img>');
+			// newImg.attr('src', newImgSrc);
+			// $('#imageHolder').append(newImg);
 		});
+		// imgPathRef.putString(message, 'data_url').then(function (snapshot) {
+		// 	console.log(snapshot);
+		// 	// // this is our url reference?
+		// 	newImgSrc = snapshot.metadata.downloadURLs[0];
+		// 	// // submit to firebase with
+		// 	doSubmission(newImgSrc);
+		// 	// newImg = $('<img>');
+		// 	// newImg.attr('src', newImgSrc);
+		// 	// $('#imageHolder').append(newImg);
+		// });
 
-
-		function doSubmission(imgSrc) {
-			//var timeStamp = firebase.database.ServerValue.TIMESTAMP;
+		function doSubmission(imgSrc, insult) {
 			//store submission
-			database.ref().push({
+			self.fireDb.ref().push({
 				'submission-breed': $('#submission-breed').val(),
 				'submission-location': $('#submission-location').val(),
 				'submission-identifier': $('#submission-identifier').val(),
 				'submission-title': $('#submission-title').val(),
 				//'submission-by' : $('#submission-by').val(),
 				//'submission-date-time' : $('#submission-date-time').val(),
+				'submission-insult': insult,
 				'submission-img': imgSrc,
 				'submission-sortstamp': 0 - Date.now()
 			})
-
-
-			//console.log(JSON.stringify(userSubmission));
-
 		}
+	};
 
-	}
+	// fire off all of our init functions and get the part started
+	this.initControls();
+	this.initFireBase();
+	this.initEvents();
 
-
-	function getGuid() {
-		function s4() {
-			return Math.floor((1 + Math.random()) * 0x10000)
-				.toString(16)
-				.substring(1);
-		}
-		return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-			s4() + '-' + s4() + s4() + s4();
-	}
-
-
-	$('#subButt').on('click', function () {
-		event.preventDefault();
-		formSubmission()
-	});
-
+}
+$(document).ready(function () {
+	//  As easy as new app()
+	new app();
 });
