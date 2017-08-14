@@ -124,25 +124,25 @@ var app = function () {
 		var renderedDoucheBag = $(self.doucheBagTemplate(item));
 		// attach our key to the rendered jQuery card object
 		renderedDoucheBag.data('key', key);
-		console.log(item)
+
 		// initialize the poop rating
 		var rating = item['submission-rating'];
 		var ratingArray = rating;
-		
+
 		ratingSum = 0;
 		$(ratingArray).each(function(){
 			ratingSum+= this;
 		})
 		ratingAvg = ratingSum/ratingArray.length;
 		ratingAvg = Math.round(ratingAvg);
-		
+
 		var poopRater = renderedDoucheBag.find('.poop-rater').poopRating(5, ratingAvg);
-		
+
 		poopRater.on('pooped',function(event,thisValue){
 			var thisKey = $(this).closest('.poop-card').data('key');
 			ratingArray.push(thisValue);
 			self.updatePoop(thisKey,ratingArray);
-			
+
 		})
 
 		// handle prepend/append and render to main content
@@ -234,7 +234,7 @@ var app = function () {
 		// attach our submit form
 		$('#subButt').on('click', function () {
 			event.preventDefault();
-			
+
 			self.submitForm();
 			self.getRandomInsult();
 
@@ -312,17 +312,18 @@ var app = function () {
 
 	// return a promise from random insult api call
 	this.getRandomInsult = function (categoryId, numQuestions) {
-		
+
 		var q = $('#submission-identifier').val();
 		var queryURL = 'https://api.whatdoestrumpthink.com/api/v1/quotes/personalized?q=' + q;
 
 		return $.ajax({
 			url: queryURL,
 			method: "GET"
-		}).done(function(response) {
-			console.log(response.message);
-			$('#trumpInsult').html(response.message);
 		});
+		// .done(function(response) {
+		// 	console.log(response.message);
+		// 	$('#trumpInsult').html(response.message);
+		// });
 	};
 
 	this.receivedText = function () {
@@ -346,44 +347,29 @@ var app = function () {
 
 		// display image
 		var message = fr.result;
-		
+
 		$.when(
 			// push our image to firebase storage
 			imgPathRef.putString(message, 'data_url'),
 			// call to get a random insult api
 			self.getRandomInsult()
 		).then(function (firebaseResult, randomInsultResult) {
-			console.log(randomInsultResult);
-			var snapshot = firebaseResult;
-			//this is our url reference ?
-			newImgSrc = snapshot.metadata.downloadURLs[0];
-			// submit to firebase with
-			doSubmission(newImgSrc);
-			// newImg = $('<img>');
-			// newImg.attr('src', newImgSrc);
-			// $('#imageHolder').append(newImg);
+			// console.log(randomInsultResult[0]);
+			// var snapshot = firebaseResult;
+			// //this is our url reference ?
+			var newImgSrc = firebaseResult.metadata.downloadURLs[0],
+				insultText = randomInsultResult[0].message;
+			// //insult =
+			// // submit to firebase with
+			doSubmission(newImgSrc, insultText);
+			// // newImg = $('<img>');
+			// // newImg.attr('src', newImgSrc);
+			// // $('#imageHolder').append(newImg);
 		});
-		
-		 imgPathRef.putString(message, 'data_url').then(function (snapshot) {
-		 	console.log(snapshot);
-		 	// // this is our url reference?
-		 	newImgSrc = snapshot.metadata.downloadURLs[0];
-		 	// // submit to firebase with
-		 	doSubmission(newImgSrc);
 
-		 
+		//  s
 
-
-			
-			// else {
-				
-			// }
-		 	// newImg = $('<img>');
-		 	// newImg.attr('src', newImgSrc);
-		 	// $('#imageHolder').append(newImg);
-		 });
-
-		function doSubmission(imgSrc) {
+		function doSubmission(imgSrc, insult) {
 
 
 			var post = {
@@ -393,7 +379,7 @@ var app = function () {
 				'submission-title': $('#submission-title').val(),
 				//'submission-by' : $('#submission-by').val(),
 				//'submission-date-time' : $('#submission-date-time').val(),
-				//'submission-insult': insult,
+				'submission-insult': insult,
 				'submission-img': imgSrc,
 				'submission-sortstamp': 0 - Date.now(),
 				'submission-rating' : ['3'] //default rating to 3
@@ -419,7 +405,7 @@ var app = function () {
 				Materialize.toast('Please upload an image!', 2000);
 				return false;
 			}
-		
+
 
 			//store submission
 			self.fireDb.ref().push(post, function() {

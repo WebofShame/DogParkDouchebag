@@ -30,13 +30,14 @@
 			<a href="#" class="brand-logo" id="brand-logo" style="margin-left: 10px;"><span><i class="fa fa-paw logo-icon" aria-hidden="true"></i></span><span class="hide-on-med-and-down">Dog Park Douchebags<span></a>
 			<ul id="nav-mobile" class="right">
 				<li>
-					<button data-target="modal1" class="orange accent-4 grey-text text-lighten-3 waves-effect waves-light btn modal-trigger submit-button " id="button-open-submission-form">Shame <span class="hide-on-med-and-down">a Douchebag</span></button>
+					<button data-target="modal1" class="orange accent-4 grey-text text-lighten-3 waves-effect waves-light btn modal-trigger submit-button "
+					id="button-open-submission-form">Shame <span class="hide-on-med-and-down">a Douchebag</span></button>
 				</li>
 			</ul>
 		</nav>
 	</div>
 	<!-- navbar -->
-<!-- 	<div id="douche-banner" class="parallax-container">
+	<!-- 	<div id="douche-banner" class="parallax-container">
 		<div class="section no-pad-bot">
 			<div class="container">
 				<br><br>
@@ -158,7 +159,7 @@
 		</div>
 
 		<div class="modal-footer" id="modal-footer">
-			
+
 		</div>
 	</div>
 	<script id="douchebag-detail-template" type="text/x-handlebars-template">
@@ -200,18 +201,22 @@
 							</dd>
 
 						</dl> -->
-						
+
 						<div id="rating-display">
 							<span style="font-weight: bold;"><h5>Douchebaggery Rating: </h5></span>
 							<ul style="display:inline-block; line-height: 1" class="poop-rater"></ul>
-						</div> 
+						</div>
 
 					</div>
 
 				</div>
 			</div>
 			<div class="col s6 m4">
-				<div class="card-panel grey lighten-1 hoverable"><span id="trumpInsult" class="white-text flow-text"></span></div>
+				{{#if submission-insult}}
+				<div class="card-panel grey lighten-1 hoverable">
+					<span id="trumpInsult" class="white-text flow-text">{{submission-insult}}</span>
+				</div>
+				{{/if}}
 			</div>
 		</div>
 	</script>
