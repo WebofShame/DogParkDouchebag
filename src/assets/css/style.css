@@ -597,7 +597,8 @@ span:nth-last-child(3) {
 
   .toast {
   	color: #e0e0e0;
-  	background-color: #b71c1c ;
+  	background-color: #b71c1c;
+  	font-weight: bold;
   }
 
   #toast-container {
@@ -607,9 +608,20 @@ span:nth-last-child(3) {
   bottom: 40%;
   left:30%; 
   color: #ff6d00;
+
   }
 
   #rating-display {
     padding: 15px;
     text-align: center;
   }
+
+/* label focus color */
+ .input-field input:focus + label {
+   color: red !important;
+ }
+ /* label underline focus color */
+ .row .input-field input:focus {
+   border-bottom: 1px solid red !important;
+   box-shadow: 0 1px 0 0 red !important
+ }

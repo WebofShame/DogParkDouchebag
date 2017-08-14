@@ -236,6 +236,7 @@ var app = function () {
 			event.preventDefault();
 			
 			self.submitForm();
+			self.getRandomInsult();
 
 		});
 
@@ -311,14 +312,16 @@ var app = function () {
 
 	// return a promise from random insult api call
 	this.getRandomInsult = function (categoryId, numQuestions) {
-		var queryURL = 'http://quandyfactory.com/insult/json';
+		
+		var q = $('#submission-identifier').val();
+		var queryURL = 'https://api.whatdoestrumpthink.com/api/v1/quotes/personalized?q=' + q;
 
 		return $.ajax({
 			url: queryURL,
-			headers: [
-				{ 'Origin': 'https://www.eiko.com' }
-			],
 			method: "GET"
+		}).done(function(response) {
+			console.log(response.message);
+			$('#trumpInsult').html(response.message);
 		});
 	};
 
@@ -343,7 +346,7 @@ var app = function () {
 
 		// display image
 		var message = fr.result;
-		/*
+		
 		$.when(
 			// push our image to firebase storage
 			imgPathRef.putString(message, 'data_url'),
@@ -360,7 +363,7 @@ var app = function () {
 			// newImg.attr('src', newImgSrc);
 			// $('#imageHolder').append(newImg);
 		});
-		*/
+		
 		 imgPathRef.putString(message, 'data_url').then(function (snapshot) {
 		 	console.log(snapshot);
 		 	// // this is our url reference?
