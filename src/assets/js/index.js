@@ -44,6 +44,14 @@ var app = function () {
 	this.initControls = function () {
 		// initialize modal dialog
 		$('.modal').modal({
+			ready: function(){
+				function initializeLocation() {
+				
+					new google.maps.places.Autocomplete(document.getElementById('submission-location'));
+				}
+
+				initializeLocation()
+			}
 			// dismissible: false;
 		});
 
@@ -240,6 +248,9 @@ var app = function () {
 
 		});
 
+		$('#btn-open-modal').on('click',function(){
+			$('#modal1').modal('open')
+		})
 		// window.scroll is called every time scrolling takes place on the page
 		this.window.scroll(function () {
 			// Get the dif against the window adding 5 for good measure
@@ -426,4 +437,17 @@ var app = function () {
 $(document).ready(function () {
 	//  As easy as new app()
 	new app();
+	$('.modal-trigger').on('click',function(){
+	function initialize() {
+
+		var input = document.getElementById('submission-location');
+		var autocomplete = new google.maps.places.Autocomplete(input);
+	}
+
+	google.maps.event.addDomListener(window, 'load', initialize);
+
+	})
 });
+
+
+
