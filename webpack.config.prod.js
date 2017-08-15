@@ -6,7 +6,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 export default {
 	devtool: '#source-map',
 	entry: [
-		path.resolve(__dirname, 'src/materialize/materialize.scss')
+		path.resolve(__dirname, 'src/assets/js/index')
 	],
 	target: 'web',
 	output: {
@@ -15,7 +15,7 @@ export default {
 		filename: 'bundle.js'
 	},
 	plugins: [
-		new ExtractTextPlugin('assets/css/custom-materialize.css') //,
+		//new ExtractTextPlugin('assets/css/custom-materialize.css') //,
 		//new webpack.optimize.DedupePlugin(),
 		// new webpack.optimize.UglifyJsPlugin({
 		// 	sourceMap: true

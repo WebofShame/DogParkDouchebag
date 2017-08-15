@@ -1,3 +1,4 @@
+
 var app = function () {
 	// local for self/this scoping
 	var self = this,
@@ -46,7 +47,6 @@ var app = function () {
 		$('.modal').modal({
 			ready: function(){
 				function initializeLocation() {
-
 					new google.maps.places.Autocomplete(document.getElementById('submission-location'));
 				}
 
