@@ -70,7 +70,7 @@
 /* 0 */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed: ModuleNotFoundError: Module not found: Error: Can't resolve 'url-loader' in 'C:\\Users\\danie\\Desktop\\code\\PROJECTS\\DogParkDouchebag'\n    at factoryCallback (C:\\Users\\danie\\Desktop\\code\\PROJECTS\\DogParkDouchebag\\node_modules\\webpack\\lib\\Compilation.js:264:39)\n    at factory (C:\\Users\\danie\\Desktop\\code\\PROJECTS\\DogParkDouchebag\\node_modules\\webpack\\lib\\NormalModuleFactory.js:247:20)\n    at resolver (C:\\Users\\danie\\Desktop\\code\\PROJECTS\\DogParkDouchebag\\node_modules\\webpack\\lib\\NormalModuleFactory.js:65:21)\n    at asyncLib.parallel (C:\\Users\\danie\\Desktop\\code\\PROJECTS\\DogParkDouchebag\\node_modules\\webpack\\lib\\NormalModuleFactory.js:202:22)\n    at C:\\Users\\danie\\Desktop\\code\\PROJECTS\\DogParkDouchebag\\node_modules\\async\\dist\\async.js:3861:9\n    at C:\\Users\\danie\\Desktop\\code\\PROJECTS\\DogParkDouchebag\\node_modules\\async\\dist\\async.js:421:16\n    at iteratorCallback (C:\\Users\\danie\\Desktop\\code\\PROJECTS\\DogParkDouchebag\\node_modules\\async\\dist\\async.js:996:13)\n    at C:\\Users\\danie\\Desktop\\code\\PROJECTS\\DogParkDouchebag\\node_modules\\async\\dist\\async.js:906:16\n    at C:\\Users\\danie\\Desktop\\code\\PROJECTS\\DogParkDouchebag\\node_modules\\async\\dist\\async.js:3858:13\n    at C:\\Users\\danie\\Desktop\\code\\PROJECTS\\DogParkDouchebag\\node_modules\\async\\dist\\async.js:1074:9");
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 /* 1 */

@@ -46,7 +46,7 @@ var app = function () {
 		$('.modal').modal({
 			ready: function(){
 				function initializeLocation() {
-				
+
 					new google.maps.places.Autocomplete(document.getElementById('submission-location'));
 				}
 
@@ -158,6 +158,29 @@ var app = function () {
 			self.mainContent.prepend(renderedDoucheBag);
 		} else {
 			self.mainContent.append(renderedDoucheBag);
+		}
+
+		var geocoder = new google.maps.Geocoder();
+		var mapContainer = renderedDoucheBag.find('.location-map');
+		if (mapContainer.length > 0) {
+			var map = new google.maps.Map(mapContainer[0], {
+				zoom: 8
+			});
+
+			geocoder.geocode({
+				'address': item['submission-location']
+			}, function (results, status) {
+				if (status == google.maps.GeocoderStatus.OK) {
+					//In this case it creates a marker, but you can get the lat and lng from the location.LatLng
+					map.setCenter(results[0].geometry.location);
+					var marker = new google.maps.Marker({
+						map: map,
+						position: results[0].geometry.location
+					});
+				} else {
+					mapContainer.hide();
+				}
+			});
 		}
 	};
 
