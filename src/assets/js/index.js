@@ -138,9 +138,11 @@ var app = function () {
 		var ratingArray = rating;
 
 		ratingSum = 0;
+
 		$(ratingArray).each(function(){
 			ratingSum+= this;
 		})
+
 		ratingAvg = ratingSum/ratingArray.length;
 		ratingAvg = Math.round(ratingAvg);
 
@@ -162,6 +164,7 @@ var app = function () {
 
 		var geocoder = new google.maps.Geocoder();
 		var mapContainer = renderedDoucheBag.find('.location-map');
+
 		if (mapContainer.length > 0) {
 			var map = new google.maps.Map(mapContainer[0], {
 				zoom: 8
@@ -193,34 +196,12 @@ var app = function () {
 			var ratedKeys = JSON.parse(ratedKeys);
 			ratedKeys.push(key);
 		}
-		localStorage.setItem('rated-keys',JSON.stringify(ratedKeys));
+		localStorage.setItem('rated-keys', JSON.stringify(ratedKeys));
 
 	}
 
 	this.initFireBase = function () {
 		firebase.initializeApp(this.fireBaseConfig);
-
-		// var provider = new firebase.auth.GithubAuthProvider();
-
-		// firebase.auth().signInWithPopup(provider).then(function (result) {
-		// 	// This gives you a GitHub Access Token. You can use it to access the GitHub API.
-		// 	var token = result.credential.accessToken;
-		// 	// The signed-in user info.
-		// 	var user = result.user;
-
-		// 	console.log(user);
-		// 	// ...
-		// }).catch(function (error) {
-		// 	console.log(error);
-		// 	// Handle Errors here.
-		// 	var errorCode = error.code;
-		// 	var errorMessage = error.message;
-		// 	// The email of the user's account used.
-		// 	var email = error.email;
-		// 	// The firebase.auth.AuthCredential type that was used.
-		// 	var credential = error.credential;
-		// 	// ...
-		// });
 
 		// get instance of firebase and assign
 		this.fireDb = firebase.database();
@@ -253,7 +234,6 @@ var app = function () {
 		self.fireDb.ref().on('child_added', function (item) {
 			// check to see if initial load is complete as we do not want to add anything until after we have done our initial load.
 			if (self.initialLoadComplete) {
-				//console.log('adding', item.key, item.val());
 				// add the card
 				self.addPoopCard(item.key, item.val(), true);
 			}
@@ -354,10 +334,6 @@ var app = function () {
 			url: queryURL,
 			method: "GET"
 		});
-		// .done(function(response) {
-		// 	console.log(response.message);
-		// 	$('#trumpInsult').html(response.message);
-		// });
 	};
 
 	this.receivedText = function () {
@@ -388,23 +364,13 @@ var app = function () {
 			// call to get a random insult api
 			self.getRandomInsult()
 		).then(function (firebaseResult, randomInsultResult) {
-			// console.log(randomInsultResult[0]);
-			// var snapshot = firebaseResult;
-			// //this is our url reference ?
 			var newImgSrc = firebaseResult.metadata.downloadURLs[0],
 				insultText = randomInsultResult[0].message;
-			// //insult =
-			// // submit to firebase with
+
 			doSubmission(newImgSrc, insultText);
-			// // newImg = $('<img>');
-			// // newImg.attr('src', newImgSrc);
-			// // $('#imageHolder').append(newImg);
 		});
 
-		//  s
-
 		function doSubmission(imgSrc, insult) {
-
 
 			var post = {
 				'submission-breed': $('#submission-breed').val(),
@@ -416,7 +382,7 @@ var app = function () {
 				'submission-insult': insult,
 				'submission-img': imgSrc,
 				'submission-sortstamp': 0 - Date.now(),
-				'submission-rating' : ['3'] //default rating to 3
+				'submission-rating' : [3] //default rating to 3
 			};
 
 			if(post['submission-title'] === '') {
@@ -443,7 +409,6 @@ var app = function () {
 
 			//store submission
 			self.fireDb.ref().push(post, function() {
-				console.log('submitted');
 				$("#modal1").modal('close');
 				return true;
 
@@ -451,7 +416,7 @@ var app = function () {
 		}
 	};
 
-	// fire off all of our init functions and get the part started
+	// fire off all of our init functions and get the party started
 	this.initControls();
 	this.initFireBase();
 	this.initEvents();
