@@ -9,6 +9,7 @@
 	<!-- <link href="https://fonts.googleapis.com/css?family=Rakkas" rel="stylesheet"> -->
 	<link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Oswald:300" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 	<!-- <link rel="stylesheet" href="./assets/css/custom-materialize.css" /> -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 	<link rel="stylesheet" href="./assets/css/style.css" />
@@ -28,10 +29,10 @@
 	<!-- thoughts on full width nav? I'm not a fan of it -->
 	<div class="navbar-fixed">
 		<nav class="nav-wrapper blue-grey darken-4">
-			<a href="#" class="brand-logo" id="brand-logo" style="margin-left: 10px;"><span><i class="fa fa-paw logo-icon" aria-hidden="true"></i></span><span class="hide-on-med-and-down">Dog Park Douchebags<span></a>
+			<a href="#" class="brand-logo" id="brand-logo" style="margin-left: 10px;"><span><i class="fa fa-paw logo-icon" aria-hidden="true"></i></span><span class="flow-text hide-on-small-and-down">Dog Park Douchebags<span></a>
 			<ul id="nav-mobile" class="right">
 				<li>
-					<button class="orange accent-4 grey-text text-lighten-3 waves-effect waves-light btn submit-button " id="btn-open-modal">Shame <span class="hide-on-med-and-down">a Douchebag</span></button>
+					<button class="orange accent-4 grey-text text-lighten-3 waves-effect waves-light btn modal-trigger" id="btn-open-modal">Shame <span class="hide-on-med-and-down">a Douchebag</span></button>
 				</li>
 			</ul>
 		</nav>
@@ -87,10 +88,10 @@
 				<h5 class="orange-text text-darken-4" id="footer-brand-text-title"><span><i class="fa fa-paw logo-icon grey-text text-lighten-1" aria-hidden="true"></i></span> Dog Park Douchebags</h5>
 			</div>
 			<div class="col l4 offset-l2 s12" id="footer-links">
-				<h5 class="white-text">Links</h5>
-				<ul>
+				<h5 class="white-text"><a class="grey-text text-lighten-3" href="indexDoc.html">Documentation</a></h5>
+				<!-- <ul>
 					<li><a class="grey-text text-lighten-3" href="indexDoc.html">Documentation</a></li>
-				</ul>
+				</ul> -->
 			</div>
 		</div>
 		<div class="footer-copyright orange darken-4" id="footer-copyright">
@@ -102,7 +103,9 @@
 	<!-- sumbission form modal-->
 	<div id="modal1" class="modal">
 		<div class="modal-content" id="modal-content">
-			<div class="container offset-l2"><button class="orange accent-4 grey-text text-lighten-3 modal-action waves-effect waves-green btn-flat" id="subButt">Submit</button></div>
+			<div class="center-align">
+			<button class="orange accent-4 grey-text text-lighten-3 modal-action waves-effect waves-green btn-flat col s2 m2 l2" id="subButt">Submit</button>
+			</div>
 			<div id="submission-form">
 				<form action="#">
 					<div class="input-field blue-grey-text text-darken-4">
@@ -117,7 +120,7 @@
 							<input type="file" id="submission-file">
 						</div>
 						<div class="file-path-wrapper">
-							<input class="file-path validate" type="text" placeholder="CaughtDouche.jpg">
+							<input class="file-path validate" type="text" placeholder="photographicEvidence.jpg">
 						</div>
 					</div>
 					<div class="input-field" id="perp-identifier-form">
@@ -157,10 +160,6 @@
 				</form>
 			</div>
 		</div>
-
-		<div class="modal-footer" id="modal-footer">
-
-		</div>
 	</div>
 	<script id="douchebag-detail-template" type="text/x-handlebars-template">
 		<img id="image-file" src="{{submission-img}}" />
@@ -168,15 +167,21 @@
 	<script id="douchebag-card-template" type="text/x-handlebars-template">
 		<div class="row poop-card">
 			<div class="col s6 m8">
+				<div class="container">
+				<span class="card-title">
+					<div id="card-title" class="blue-grey darken-2">
+						<h4 class="white-text lighten-5 flow-text">{{submission-title}}</h4>
+					</div>
+				</span>
 				<div class="card large hoverable">
 					<div class="card-image">
 						<img id="image-file" src="{{submission-img}}" />
-						<span class="card-title">
-						<span class="z-depth-5">{{submission-title}}</span>
-						</span>
+						<!-- <span class="card-title">
+						<span><h4>{{submission-title}}</h4></span>
+						</span> -->
 					</div>
 					<div class="card-content flow-text">
-
+						<div>
 						<span style="font-weight: bold;">Perp: </span><span>{{submission-identifier}}</span> <br />
 						<span style="font-weight: bold;">Location: </span><span>{{submission-location}}</span> <br />
 						<span style="font-weight: bold;">Breed: </span><span>{{submission-breed}}</span> <br />
@@ -201,14 +206,15 @@
 							</dd>
 
 						</dl> -->
-
-						<div id="rating-display">
-							<span style="font-weight: bold;"><h5>Douchebaggery Rating: </h5></span>
+						</div>
+						<div id="rating-display center-align">
+							<span "><h5 style="font-weight: bold;"  class="flow-text">Douchebaggery Rating: </h5></span>
 							<ul style="display:inline-block; line-height: 1" class="poop-rater"></ul>
 						</div>
 
 					</div>
 
+				</div>
 				</div>
 			</div>
 			<div class="col s6 m4">

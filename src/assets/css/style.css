@@ -14,9 +14,9 @@ nav {
 }
 
 .modal {
-	width: 80% !important;
-	max-height: 100% !important;
-	overflow-y: hidden !important;
+	width: 55% !important;
+	max-height: 75% !important;
+	overflow-y: auto !important;
 }
 
 #footer-brand-text-title {
@@ -226,7 +226,7 @@ nav {
 	position: absolute;
 	bottom: 0;
 	left: 0;
-	max-width: 100%;
+	max-width: 75%;
 	padding: 24px;
 }
 
@@ -603,10 +603,6 @@ span:nth-last-child(3) {
 
   #toast-container {
 
-  top: auto !important;
-  right: auto !important;
-  bottom: 40%;
-  left:30%; 
   color: #ff6d00;
 
   }
@@ -630,4 +626,24 @@ span:nth-last-child(3) {
 .pac-container {
     z-index: 9999 !important;
 }
+
+@media only screen and (min-width : 1296px) {
+	#toast-container {
+	min-width: 8%;
+	top: 50%;
+	right: 50%; 
+	} 
+}
+
+#card-title {
+	font-family: font-family: 'Raleway', sans-serif;
+	text-align: center;
+}
+
+.right {
+	padding-right: 10px;
+	
+}
+
+
 					
