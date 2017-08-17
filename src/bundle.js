@@ -68,11 +68,8 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-throw new Error("Cannot find module \"jquery.pooprating.js\"");
 
 var app = function () {
 	// local for self/this scoping
@@ -122,7 +119,6 @@ var app = function () {
 		$('.modal').modal({
 			ready: function(){
 				function initializeLocation() {
-
 					new google.maps.places.Autocomplete(document.getElementById('submission-location'));
 				}
 
@@ -486,6 +482,7 @@ var app = function () {
 			//store submission
 			self.fireDb.ref().push(post, function() {
 				$("#modal1").modal('close');
+				$("formReset").trigger('click');
 				return true;
 
 			});

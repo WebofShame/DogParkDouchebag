@@ -1,4 +1,3 @@
-
 var app = function () {
 	// local for self/this scoping
 	var self = this,
@@ -45,7 +44,7 @@ var app = function () {
 	this.initControls = function () {
 		// initialize modal dialog
 		$('.modal').modal({
-			ready: function(){
+			ready: function () {
 				function initializeLocation() {
 					new google.maps.places.Autocomplete(document.getElementById('submission-location'));
 				}
@@ -139,19 +138,19 @@ var app = function () {
 
 		ratingSum = 0;
 
-		$(ratingArray).each(function(){
-			ratingSum+= this;
+		$(ratingArray).each(function () {
+			ratingSum += this;
 		})
 
-		ratingAvg = ratingSum/ratingArray.length;
+		ratingAvg = ratingSum / ratingArray.length;
 		ratingAvg = Math.round(ratingAvg);
 
 		var poopRater = renderedDoucheBag.find('.poop-rater').poopRating(5, ratingAvg);
 
-		poopRater.on('pooped',function(event,thisValue){
+		poopRater.on('pooped', function (event, thisValue) {
 			var thisKey = $(this).closest('.poop-card').data('key');
 			ratingArray.push(thisValue);
-			self.updatePoop(thisKey,ratingArray);
+			self.updatePoop(thisKey, ratingArray);
 
 		})
 
@@ -187,12 +186,14 @@ var app = function () {
 		}
 	};
 
-	this.updatePoop = function(key,array){
-		this.fireDb.ref(key).update({'submission-rating' : array});
+	this.updatePoop = function (key, array) {
+		this.fireDb.ref(key).update({
+			'submission-rating': array
+		});
 		var ratedKeys = localStorage.getItem("rated-keys");
-		if(!ratedKeys){
+		if (!ratedKeys) {
 			var ratedKeys = [key];
-		}else{
+		} else {
 			var ratedKeys = JSON.parse(ratedKeys);
 			ratedKeys.push(key);
 		}
@@ -251,7 +252,8 @@ var app = function () {
 
 		});
 
-		$('#btn-open-modal').on('click',function(){
+
+		$('#btn-open-modal').on('click', function () {
 			$('#modal1').modal('open')
 		})
 		// window.scroll is called every time scrolling takes place on the page
@@ -382,34 +384,35 @@ var app = function () {
 				'submission-insult': insult,
 				'submission-img': imgSrc,
 				'submission-sortstamp': 0 - Date.now(),
-				'submission-rating' : [3] //default rating to 3
+				'submission-rating': [3] //default rating to 3
 			};
 
-			if(post['submission-title'] === '') {
+			if (post['submission-title'] === '') {
 				Materialize.toast('Please enter a title!', 2000);
 				return false;
 			}
-			if(post['submission-identifier'] === '') {
+			if (post['submission-identifier'] === '') {
 				Materialize.toast('Please enter a Douche Nickname!', 2000);
 				return false;
 			}
-			if(post['submission-breed'] === '') {
+			if (post['submission-breed'] === '') {
 				Materialize.toast('Please enter a breed!', 2000);
 				return false;
 			}
-			if(post['submission-location'] === '') {
+			if (post['submission-location'] === '') {
 				Materialize.toast('Please enter a location!', 2000);
 				return false;
 			}
-			if(post['submission-img'] === '') {
+			if (post['submission-img'] === '') {
 				Materialize.toast('Please upload an image!', 2000);
 				return false;
 			}
 
 
 			//store submission
-			self.fireDb.ref().push(post, function() {
+			self.fireDb.ref().push(post, function () {
 				$("#modal1").modal('close');
+				$('#submission-form').get(0).reset();
 				return true;
 
 			});
@@ -425,17 +428,14 @@ var app = function () {
 $(document).ready(function () {
 	//  As easy as new app()
 	new app();
-	$('.modal-trigger').on('click',function(){
-	function initialize() {
+	$('.modal-trigger').on('click', function () {
+		function initialize() {
 
-		var input = document.getElementById('submission-location');
-		var autocomplete = new google.maps.places.Autocomplete(input);
-	}
+			var input = document.getElementById('submission-location');
+			var autocomplete = new google.maps.places.Autocomplete(input);
+		}
 
-	google.maps.event.addDomListener(window, 'load', initialize);
+		google.maps.event.addDomListener(window, 'load', initialize);
 
-	})
+	});
 });
-
-
-
